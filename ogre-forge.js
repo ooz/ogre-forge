@@ -118,7 +118,7 @@ function preload() {
         this.load.image('ogre_head2', 'assets/ogre2.png')
 
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
-        this.load.plugin('rexshakepositionplugin', url, true);
+        this.load.plugin('rexshakepositionplugin', pluginUrl, true);
     } else {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
         this.load.image('p2_foot', 'assets/stomp_p2.png')
