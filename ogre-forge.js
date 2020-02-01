@@ -134,7 +134,7 @@ function create() {
 
     if (_isGameScreen()) {
         this.add.image(300, 150, 'smithy_bg');
-        this.add.image(300, 300, 'anvil');
+        this.add.image(300, 320, 'anvil');
     }
 
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=pp_' + parameters.gameId;
