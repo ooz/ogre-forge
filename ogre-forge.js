@@ -116,6 +116,9 @@ function preload() {
         this.load.image('ogre_body', 'assets/ogre_body_short.png')
         this.load.image('ogre_head1', 'assets/ogre1.png')
         this.load.image('ogre_head2', 'assets/ogre2.png')
+
+        var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
+        this.load.plugin('rexshakepositionplugin', url, true);
     } else {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
         this.load.image('p2_foot', 'assets/stomp_p2.png')
@@ -123,6 +126,7 @@ function preload() {
 }
 
 var debugConsole = null;
+var anvil = null;
 function create() {
     this.input.on('pointerup', function (pointer) {
         if (!game.scale.isFullscreen) {
@@ -140,7 +144,12 @@ function create() {
         this.add.image(300, 135, 'ogre_body');
         this.add.image(250, 105, 'ogre_head1');
         this.add.image(350, 105, 'ogre_head2');
-        this.add.image(300, 325, 'anvil');
+        anvil = this.add.image(300, 325, 'anvil');
+        anvil.shake = this.plugins.get('rexshakepositionplugin').add(anvil, {
+            duration: 500,
+            magnitude: 25,
+            // mode: 'effect'
+        }).on('complete', function () {});
     }
 
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=pp_' + parameters.gameId;
@@ -229,6 +238,7 @@ function update(time, delta) {
             debug("P1: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
+                if (anvil != null) anvil.shake.shake();
             }
         }
         // P2 input
@@ -237,6 +247,7 @@ function update(time, delta) {
             debug("P2: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
+                if (anvil != null) anvil.shake.shake();
             }
         }
     }
