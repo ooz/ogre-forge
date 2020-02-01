@@ -1,3 +1,14 @@
+/*
+## Ogre Protocol
+
+pp_<gameId> .. player game prefix
+
+hi_<playerId>     .. handshake/player sign-up
+pl_<playerNumber> .. player number assignment by game (1, 2 .. players, 0 .. reject)
+p1_<action>       .. player 1 action command
+p2_<action>       .. player 2 action command
+*/
+
 var parameters = getParameters();
 
 var WIDTH = (parameters.player == 'screen') ? 600 : 300;
@@ -39,6 +50,9 @@ var players = {
     p2: {
         id: null,
         conn: null
+    },
+    me: {
+        number: null
     }
 }
 if (parameters.player == 'screen') {
@@ -51,12 +65,22 @@ if (parameters.player == 'screen') {
             if (players.p1.id == null) {
                 players.p1.id = playerId;
                 players.p1.conn = conn;
-                conn.send('player_1');
+                conn.send('pl_1');
             } else if (players.p2.id == null) {
                 players.p2.id = playerId;
                 players.p2.conn = conn;
-                conn.send('player_2');
+                conn.send('pl_2');
+            } else {
+                conn.send('pl_0'); // reject
             }
+          }
+          if (data.startsWith('p1_')) {
+            var command = substr(3);
+            debug("Player 1: " + command);
+          }
+          if (data.startsWith('p2_')) {
+            var command = substr(3);
+            debug("Player 2: " + command);
           }
         });
       });
@@ -72,6 +96,10 @@ if (parameters.player != 'screen') {
     });
     conn.on('data', function(data) {
         debug('From game: ' + data);
+        var command = data.substr(3);
+        if (data.startsWith('pl_')) {
+            players.me.number = 'p' + command;
+        }
     });
 }
 
@@ -99,7 +127,9 @@ function create ()
     button.on('pointerup', function () {
         debug('btn down');
         if (conn != null) {
-            conn.send("blub");
+            if (players.me.number == 'p1' || players.me.number == 'p2') {
+                conn.send(players.me.number + '_stomp');
+            }
         }
     });
 
@@ -119,9 +149,9 @@ function getParameters() {
     var gameId = url.searchParams.get('gameId') || createGameId();
     var player = 'screen';
     var playerId = 'screen'
-    if (gameId.startsWith('p1_')) {
+    if (gameId.startsWith('pp_')) {
         gameId = gameId.substr(3);
-        player = 'p1';
+        player = 'pp';
         playerId = createGameId();
     }
     return {
