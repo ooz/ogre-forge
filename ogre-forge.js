@@ -19,6 +19,7 @@ var config = {
     width: WIDTH,
     height: HEIGHT,
     parent: 'game-container',
+    fullscreenTarget: 'game-container',
     scale: {
         mode: Phaser.Scale.FIT,
         parent: 'game-container',
@@ -226,7 +227,6 @@ function _initGameState() {
 }
 function update(time, delta) {
     this._initUI();
-    //paused = (game.scale.isFullScreen) ? false : true;
 
     if (_isValidPlayer() && conn != null) {
         if (gyroMagnitude >= 23.0) {
