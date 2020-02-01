@@ -216,10 +216,15 @@ function get(id) {
     return document.getElementById(id)
 }
 
-function debug(text, line=1.0) {
+var debugLines = [];
+function debug(text) {
     console.log(text);
+    debugLines.push(text);
+    while (debugLines.length > 5) {
+        debugLines.shift()
+    }
     if (debugConsole != null) {
-        debugConsole.setText(text)
+        debugConsole.setText(debugLines)
     }
 }
 // ## UTIL LIB END
