@@ -138,7 +138,7 @@ function _initUI() {
     if (button != null) return;
 
     if (_isValidPlayer()) {
-        button = game.add.sprite(0, 200, players.me.number + '_foot').setInteractive();
+        button = this.add.sprite(0, 200, players.me.number + '_foot').setInteractive();
         button.on('pointerup', function () {
             if (conn != null) {
                 if (_isValidPlayer()) {
