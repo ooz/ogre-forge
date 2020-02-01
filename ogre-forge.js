@@ -31,16 +31,47 @@ function preload ()
 }
 
 var peer;
+var players = {
+    p1: {
+        id: null,
+        conn: null
+    },
+    p2: {
+        id: null,
+        conn: null
+    }
+}
 if (parameters.player == 'screen') {
     peer = new Peer(parameters.gameId, {debug: 3});
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
           // Will print 'hi!'
           console.log(data);
+          if (data.startsWith('hi_')) {
+            var playerId = data.substr(3);
+            if (players.p1.id === null) {
+                players.p1.id = playerId;
+                players.p1.conn = peer.connect(playerId);
+                players.p1.conn.on('open', function(){
+                    conn.send('player_1');
+                  });
+            } else if (players.p2.id === null) {
+                players.p2.id = playerId;
+                players.p2.conn = peer.connect(playerId);
+                players.p2.conn.on('open', function(){
+                    conn.send('player_2');
+                  });
+            }
+          }
         });
       });
 } else {
-    peer = new Peer();
+    peer = new Peer(parameters.playerId);
+    peer.on('connection', function(conn) {
+        conn.on('data', function(data){
+          console.log('Received data from game: ' + data);
+        });
+      });
 }
 
 var conn = null;
@@ -50,7 +81,7 @@ if (parameters.player != 'screen') {
     // on open will be launch when you successfully connect to PeerServer
     conn.on('open', function(){
       // here you have conn.id
-      conn.send('hi!');
+      conn.send('hi_' + parameters.playerId);
     });
 }
 
@@ -94,13 +125,16 @@ function getParameters() {
     var url = new URL(window.location.href)
     var gameId = url.searchParams.get('gameId') || createGameId();
     var player = 'screen';
+    var playerId = 'screen'
     if (gameId.startsWith('p1_')) {
         gameId = gameId.substr(3);
         player = 'p1';
+        playerId = createGameId();
     }
     return {
         'gameId': gameId,
-        'player': player
+        'player': player,
+        'playerId': playerId
     }
 }
 
