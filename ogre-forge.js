@@ -120,8 +120,6 @@ function preload() {
 
 var debugConsole = null;
 function create() {
-    debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
-
     this.input.on('pointerup', function (pointer) {
         if (!game.scale.isFullscreen) {
             game.scale.startFullscreen()
@@ -140,6 +138,8 @@ function create() {
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=pp_' + parameters.gameId;
     // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
+
+    debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
 }
 
 var button = null;
