@@ -1,7 +1,7 @@
 var parameters = getParameters();
 
-var WIDTH = (parameters.player === 'screen') ? 600 : 400;
-var HEIGHT = (parameters.player === 'screen') ? 400 : 600;
+var WIDTH = (parameters.player == 'screen') ? 600 : 400;
+var HEIGHT = (parameters.player == 'screen') ? 400 : 600;
 
 var config = {
     type: Phaser.AUTO,
@@ -55,7 +55,7 @@ function create ()
         }
     }, this);
 
-    var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=' + parameters.gameId + '&player=p';
+    var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=p1_' + parameters.gameId;
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 }
 
@@ -67,9 +67,15 @@ function update ()
 
 function getParameters() {
     var url = new URL(window.location.href)
+    var gameId = url.searchParams.get('gameId') || createGameId();
+    var player = 'screen';
+    if (gameId.startsWith('p1_')) {
+        gameId = gameId.substr(3);
+        player = 'p1';
+    }
     return {
-        'gameId': url.searchParams.get('gameId') || createGameId(),
-        'player': url.searchParams.get('player') || 'screen'
+        'gameId': gameId,
+        'player': player
     }
 }
 
@@ -79,6 +85,7 @@ function createGameId() {
 }
 
 console.log("GameId: " + parameters.gameId);
+console.log("Player: " + parameters.player);
 
 
 // PEER
