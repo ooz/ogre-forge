@@ -81,9 +81,12 @@ if (parameters.player != 'screen') {
 
 
 var button;
+var debugConsole;
 function create ()
 {
     //this.add.image(400, 300, 'sky');
+
+    debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
 
     this.input.on('pointerup', function (pointer) {
         if (!game.scale.isFullscreen) {
@@ -157,5 +160,7 @@ function get(id) {
 
 function debug(text, line=1.0) {
     console.log(text);
-    game.debug.text(text, 100.0, HEIGHT - line * 20.0);
+    debugConsole.setText(
+        [text]
+    )
 }
