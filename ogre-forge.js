@@ -11,8 +11,8 @@ p2_<action>       .. player 2 action command
 
 var parameters = getParameters();
 
-var WIDTH = (parameters.player == 'screen') ? 600 : 300;
-var HEIGHT = (parameters.player == 'screen') ? 300 : 600;
+var WIDTH = (_isGameScreen()) ? 600 : 300;
+var HEIGHT = (_isGameScreen()) ? 300 : 600;
 
 var config = {
     type: Phaser.AUTO,
@@ -54,7 +54,7 @@ var players = {
 
 // ## PEERS
 var peer;
-if (parameters.player == 'screen') {
+if (_isGameScreen()) {
     peer = new Peer(parameters.gameId, {debug: 3});
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
@@ -86,7 +86,7 @@ if (parameters.player == 'screen') {
 }
 
 var conn = null;
-if (parameters.player != 'screen') {
+if (!_isGameScreen()) {
     conn = peer.connect(parameters.gameId);
     conn.on('open', function() {
       conn.send('hi_' + parameters.playerId);
@@ -107,7 +107,7 @@ if (parameters.player != 'screen') {
 // ## GAME CALLBACKS
 function preload() {
     this.load.image('button', 'assets/btn.png')
-    if (parameters.player != 'screen') {
+    if (_isGameScreen()) {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
         this.load.image('p2_foot', 'assets/stomp_p2.png')
     }
@@ -172,11 +172,22 @@ function _onGyro(o) {
     gyroMagnitude = Math.max(magnitude, gyroMagnitude);
 }
 
+function _isGameScreen() {
+    return parameters.player == 'screen';
+}
 function _isValidPlayer() {
     return players.me.number == 'p1' || players.me.number == 'p2';
 }
 
-function update() {
+const GOLD_LOSS_PER_SEC = 10;
+var gameState = _initGameState()
+function _initGameState() {
+    return {
+        gold: 1000,
+        lastPrintTimeInMs: 0
+    }
+}
+function update(time, delta) {
     this._initUI();
 
     if (_isValidPlayer() && conn != null) {
@@ -184,6 +195,12 @@ function update() {
             debug("Gyro: " + gyroMagnitude);
             conn.send(players.me.number + '_bash');
             gyroMagnitude = 0.0;
+        }
+    } else if (_isGameScreen()) {
+        gameState.gold -= (GOLD_LOSS_PER_SEC / 1000.0) * delta;
+        if (time - gameState.lastPrintTimeInMs >= 1000) {
+            debug("Gold: " + gameState.gold)
+            gameState.lastPrintTimeInMs = time;
         }
     }
 }
