@@ -27,22 +27,29 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.setBaseURL('http://labs.phaser.io');
-
-    this.load.image('sky', 'assets/skies/space3.png');
+    this.load.image('button', 'assets/btn.png')
 }
 
+var button;
 function create ()
 {
-    this.add.image(400, 300, 'sky');
+    //this.add.image(400, 300, 'sky');
 
     this.input.on('pointerup', function (pointer) {
         if (!game.scale.isFullscreen) {
             game.scale.startFullscreen()
-        } else {
+        }
+        /*
+        else {
             game.scale.stopFullscreen()
         }
+        */
     }, this);
+
+    button = this.add.sprite(100, 100, 'button').setInteractive();
+    button.on('pointerup', function () {
+        console.log('btn down');
+    });
 
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=p1_' + parameters.gameId;
     // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
