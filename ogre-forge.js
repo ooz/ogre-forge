@@ -41,11 +41,13 @@ var game = new Phaser.Game(config);
 var players = {
     p1: {
         id: null,
-        conn: null
+        conn: null,
+        commands: []
     },
     p2: {
         id: null,
-        conn: null
+        conn: null,
+        commands: []
     },
     me: {
         number: null
@@ -58,8 +60,8 @@ if (_isGameScreen()) {
     peer = new Peer(parameters.gameId, {debug: 3});
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
-          debug(data)
           if (data.startsWith('hi_')) {
+            debug(data)
             var playerId = data.substr(3);
             if (players.p1.id == null) {
                 players.p1.id = playerId;
@@ -75,9 +77,11 @@ if (_isGameScreen()) {
           }
           if (data.startsWith('p1_')) {
             var command = data.substr(3);
+            players.p1.commands.push(command)
           }
           if (data.startsWith('p2_')) {
             var command = data.substr(3);
+            players.p2.commands.push(command)
           }
         });
       });
@@ -197,11 +201,23 @@ function update(time, delta) {
             gyroMagnitude = 0.0;
         }
     } else if (_isGameScreen()) {
+        // Gold update
         gameState.gold -= (GOLD_LOSS_PER_SEC / 1000.0) * delta;
         gameState.gold = Math.max(gameState.gold, 0);
         if (time - gameState.lastPrintTimeInMs >= 3000) {
             debug("Gold: " + gameState.gold.toFixed(0))
             gameState.lastPrintTimeInMs = time;
+        }
+
+        // P1 input
+        if (players.p1.commands.length > 0) {
+            var cmd = players.p1.commands.shift();
+            debug("P1: " + cmd);
+        }
+        // P2 input
+        if (players.p2.commands.length > 0) {
+            var cmd = players.p2.commands.shift();
+            debug("P2: " + cmd);
         }
     }
 }
