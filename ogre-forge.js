@@ -199,7 +199,7 @@ function update(time, delta) {
     } else if (_isGameScreen()) {
         gameState.gold -= (GOLD_LOSS_PER_SEC / 1000.0) * delta;
         gameState.gold = Math.max(gameState.gold, 0);
-        if (time - gameState.lastPrintTimeInMs >= 1000) {
+        if (time - gameState.lastPrintTimeInMs >= 3000) {
             debug("Gold: " + gameState.gold)
             gameState.lastPrintTimeInMs = time;
         }
