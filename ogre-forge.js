@@ -41,32 +41,27 @@ var players = {
         conn: null
     }
 }
-if (parameters.player == 'screen') {
+if (parameters.player === 'screen') {
     peer = new Peer(parameters.gameId, {debug: 3});
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
-          // Will print 'hi!'
           console.log(data);
           if (data.startsWith('hi_')) {
             var playerId = data.substr(3);
-            if (players.p1.id === null) {
+            if (players.p1.id == null) {
                 players.p1.id = playerId;
-                players.p1.conn = peer.connect(playerId);
-                players.p1.conn.on('open', function(){
-                    conn.send('player_1');
-                  });
-            } else if (players.p2.id === null) {
+                players.p1.conn = conn;
+                conn.send('player_1');
+            } else if (players.p2.id == null) {
                 players.p2.id = playerId;
-                players.p2.conn = peer.connect(playerId);
-                players.p2.conn.on('open', function(){
-                    conn.send('player_2');
-                  });
+                players.p2.conn = conn;
+                conn.send('player_2');
             }
           }
         });
       });
 } else {
-    peer = new Peer(parameters.playerId);
+    peer = new Peer(parameters.playerId, {debug: 3});
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
           console.log('Received data from game: ' + data);
@@ -75,7 +70,6 @@ if (parameters.player == 'screen') {
 }
 
 var conn = null;
-
 if (parameters.player != 'screen') {
     conn = peer.connect(parameters.gameId);
     // on open will be launch when you successfully connect to PeerServer
