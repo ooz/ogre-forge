@@ -15,7 +15,7 @@ var WIDTH = (_isGameScreen()) ? 600 : 300;
 var HEIGHT = (_isGameScreen()) ? 300 : 600;
 
 var config = {
-    type: (_isGameScreen()) ? Phaser.AUTO : Phaser.CANVAS,
+    type: Phaser.AUTO,
     width: WIDTH,
     height: HEIGHT,
     parent: 'game-container',
@@ -34,7 +34,8 @@ var config = {
         extend: {
             _initUI: _initUI
         }
-    }
+    },
+    backgroundColor: '#c2b280'
 };
 
 var game = new Phaser.Game(config);
@@ -238,8 +239,10 @@ function update(time, delta) {
             debug("P1: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
-                if (anvil != null) anvil.shake.shake();
+            } else if (cmd == 'stomp') {
+                // move obj left
             }
+            if (anvil != null) anvil.shake.shake();
         }
         // P2 input
         if (players.p2.commands.length > 0) {
@@ -247,8 +250,10 @@ function update(time, delta) {
             debug("P2: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
-                if (anvil != null) anvil.shake.shake();
+            } else if (cmd == 'stomp') {
+                // move obj right
             }
+            if (anvil != null) anvil.shake.shake();
         }
     }
 }
