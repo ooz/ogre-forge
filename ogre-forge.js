@@ -146,8 +146,8 @@ function create() {
         this.add.image(350, 105, 'ogre_head2');
         anvil = this.add.image(300, 325, 'anvil');
         anvil.shake = this.plugins.get('rexshakepositionplugin').add(anvil, {
-            duration: 500,
-            magnitude: 25,
+            duration: 300,
+            magnitude: 10,
             // mode: 'effect'
         }).on('complete', function () {});
     }
