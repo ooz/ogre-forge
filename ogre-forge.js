@@ -40,6 +40,7 @@ var config = {
 
 var game = new Phaser.Game(config);
 var players = {
+    body: null,
     p1: {
         id: null,
         conn: null,
@@ -149,10 +150,14 @@ function create() {
 
     if (_isGameScreen()) {
         this.add.image(300, 150, 'smithy_bg');
-        this.add.image(300, 135, 'ogre_body');
+        players.body = this.add.image(300, 135, 'ogre_body');
+        players.body.shake = this.plugins.get('rexshakepositionplugin').add(players.body, {
+            duration: 200,
+            magnitude: 2,
+        }).on('complete', function () {});
         players.p1.head = this.add.image(250, 105, 'p1_head');
         players.p1.head.shake = this.plugins.get('rexshakepositionplugin').add(players.p1.head, {
-            duration: 150,
+            duration: 200,
             magnitude: 1,
         }).on('complete', function () {});
         players.p2.head = this.add.image(350, 105, 'p2_head');
@@ -162,9 +167,8 @@ function create() {
         }).on('complete', function () {});
         anvil = this.add.image(300, 325, 'anvil');
         anvil.shake = this.plugins.get('rexshakepositionplugin').add(anvil, {
-            duration: 300,
-            magnitude: 3,
-            // mode: 'effect'
+            duration: 400,
+            magnitude: 4,
         }).on('complete', function () {});
     }
 
@@ -242,6 +246,7 @@ function update(time, delta) {
             } else if (cmd == 'stomp') {
                 // move obj left
             }
+            if (players.body != null) players.body.shake.shake();
             if (players.p1.head != null) players.p1.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
         }
@@ -254,6 +259,7 @@ function update(time, delta) {
             } else if (cmd == 'stomp') {
                 // move obj right
             }
+            if (players.body != null) players.body.shake.shake();
             if (players.p2.head != null) players.p2.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
         }
