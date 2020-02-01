@@ -246,8 +246,8 @@ function update(time, delta) {
             } else if (cmd == 'stomp') {
                 // move obj left
             }
-            if (players.body != null) players.body.shake.shake();
-            if (players.p1.head != null) players.p1.head.shake.shake();
+            if (players.body != null && cmd == 'stomp') players.body.shake.shake();
+            if (players.p1.head != null && cmd == 'bash') players.p1.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
         }
         // P2 input
@@ -259,8 +259,8 @@ function update(time, delta) {
             } else if (cmd == 'stomp') {
                 // move obj right
             }
-            if (players.body != null) players.body.shake.shake();
-            if (players.p2.head != null) players.p2.head.shake.shake();
+            if (players.body != null && cmd == 'stomp') players.body.shake.shake();
+            if (players.p2.head != null && cmd == 'bash') players.p2.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
         }
     }
