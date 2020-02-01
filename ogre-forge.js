@@ -153,8 +153,8 @@ function _isValidPlayer() {
     return players.me.number == 'p1' || players.me.number == 'p2';
 }
 
-function update () {
-    _initUI();
+function update() {
+    this._initUI();
 }
 // ## GAME CALLBACKS END
 
