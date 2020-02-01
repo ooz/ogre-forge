@@ -41,7 +41,7 @@ var players = {
         conn: null
     }
 }
-if (parameters.player === 'screen') {
+if (parameters.player == 'screen') {
     peer = new Peer(parameters.gameId, {debug: 3});
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
