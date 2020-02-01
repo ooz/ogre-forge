@@ -147,7 +147,7 @@ function create() {
         anvil = this.add.image(300, 325, 'anvil');
         anvil.shake = this.plugins.get('rexshakepositionplugin').add(anvil, {
             duration: 300,
-            magnitude: 10,
+            magnitude: 3,
             // mode: 'effect'
         }).on('complete', function () {});
     }
