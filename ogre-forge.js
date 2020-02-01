@@ -62,20 +62,17 @@ if (parameters.player === 'screen') {
       });
 } else {
     peer = new Peer(parameters.playerId, {debug: 3});
-    peer.on('connection', function(conn) {
-        conn.on('data', function(data){
-          debug('Received data from game: ' + data);
-        });
-      });
 }
 
 var conn = null;
 if (parameters.player != 'screen') {
     conn = peer.connect(parameters.gameId);
-    // on open will be launch when you successfully connect to PeerServer
-    conn.on('open', function(){
+    conn.on('open', function() {
       // here you have conn.id
       conn.send('hi_' + parameters.playerId);
+    });
+    conn.on('data', function(data) {
+        debug('From game: ' + data);
     });
 }
 
