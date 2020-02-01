@@ -45,7 +45,7 @@ if (parameters.player === 'screen') {
     peer = new Peer(parameters.gameId, {debug: 3});
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
-          console.log(data);
+          debug(data)
           if (data.startsWith('hi_')) {
             var playerId = data.substr(3);
             if (players.p1.id == null) {
@@ -64,7 +64,7 @@ if (parameters.player === 'screen') {
     peer = new Peer(parameters.playerId, {debug: 3});
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
-          console.log('Received data from game: ' + data);
+          debug('Received data from game: ' + data);
         });
       });
 }
@@ -140,7 +140,6 @@ function createGameId() {
 console.log("GameId: " + parameters.gameId);
 console.log("Player: " + parameters.player);
 
-
 // PEER
 /*
 var peer = new Peer();
@@ -154,4 +153,9 @@ peer.on('connection', function(conn) {
 
 function get(id) {
     return document.getElementById(id)
+}
+
+function debug(text, line=1.0) {
+    console.log(text);
+    game.debug.text(text, 100.0, HEIGHT - line * 20.0);
 }
