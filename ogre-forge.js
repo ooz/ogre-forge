@@ -182,8 +182,8 @@ function update() {
     this._initUI();
 
     if (_isValidPlayer()) {
-        debug("Gyro: " + gyroMagnitude);
-        if (gyroMagnitude >= 20.0) {
+        if (gyroMagnitude >= 10.0) {
+            debug("Gyro: " + gyroMagnitude);
             conn.send(players.me.number + '_bash');
             gyroMagnitude = 0.0;
         }
