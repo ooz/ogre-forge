@@ -99,6 +99,9 @@ if (parameters.player != 'screen') {
         var command = data.substr(3);
         if (data.startsWith('pl_')) {
             players.me.number = 'p' + command;
+            if (command == '0') {
+                debug('Game full! Max. 2 players allowed! :(')
+            }
         }
     });
 }
