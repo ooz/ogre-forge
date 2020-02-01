@@ -167,6 +167,7 @@ function _initUI() {
     if (button != null) return;
 
     if (_isValidPlayer()) {
+        this.add.image(WIDTH / 2, 500, players.me.number + '_head');
         button = this.add.sprite(WIDTH / 2, HEIGHT / 2, players.me.number + '_foot').setInteractive();
         button.on('pointerup', function () {
             if (conn != null) {
@@ -175,7 +176,6 @@ function _initUI() {
                 }
             }
         });
-        this.add.image(WIDTH / 2, 500, players.me.number + '_head');
 
         if (gyro.hasFeature('devicemotion')) {
             gyro.frequency = 50; // ms
