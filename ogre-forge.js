@@ -104,8 +104,7 @@ if (parameters.player != 'screen') {
 // ## PEERS END
 
 // ## GAME CALLBACKS
-function preload ()
-{
+function preload() {
     this.load.image('button', 'assets/btn.png')
     if (parameters.player != 'screen') {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
@@ -115,8 +114,7 @@ function preload ()
 
 var button = null;
 var debugConsole = null;
-function create ()
-{
+function create() {
     //this.add.image(400, 300, 'sky');
     debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
 
