@@ -110,8 +110,7 @@ if (!_isGameScreen()) {
 
 // ## GAME CALLBACKS
 function preload() {
-    this.load.image('button', 'assets/btn.png')
-    if (_isGameScreen()) {
+    if (!_isGameScreen()) {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
         this.load.image('p2_foot', 'assets/stomp_p2.png')
     }
