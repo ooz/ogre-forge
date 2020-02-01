@@ -1,7 +1,7 @@
 var parameters = getParameters();
 
-var WIDTH = (parameters.player == 'screen') ? 600 : 400;
-var HEIGHT = (parameters.player == 'screen') ? 400 : 600;
+var WIDTH = (parameters.player == 'screen') ? 600 : 300;
+var HEIGHT = (parameters.player == 'screen') ? 300 : 600;
 
 var config = {
     type: Phaser.AUTO,
@@ -56,6 +56,7 @@ function create ()
     }, this);
 
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=p1_' + parameters.gameId;
+    // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 }
 
