@@ -214,11 +214,17 @@ function update(time, delta) {
         if (players.p1.commands.length > 0) {
             var cmd = players.p1.commands.shift();
             debug("P1: " + cmd);
+            if (cmd == 'bash') {
+                gameState.gold += 10;
+            }
         }
         // P2 input
         if (players.p2.commands.length > 0) {
             var cmd = players.p2.commands.shift();
             debug("P2: " + cmd);
+            if (cmd == 'bash') {
+                gameState.gold += 10;
+            }
         }
     }
 }
