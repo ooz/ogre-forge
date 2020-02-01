@@ -35,13 +35,6 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
-
-function preload ()
-{
-    this.load.image('button', 'assets/btn.png')
-}
-
-var peer;
 var players = {
     p1: {
         id: null,
@@ -55,6 +48,9 @@ var players = {
         number: null
     }
 }
+
+// ## PEERS
+var peer;
 if (parameters.player == 'screen') {
     peer = new Peer(parameters.gameId, {debug: 3});
     peer.on('connection', function(conn) {
@@ -105,7 +101,13 @@ if (parameters.player != 'screen') {
         }
     });
 }
+// ## PEERS END
 
+// ## GAME CALLBACKS
+function preload ()
+{
+    this.load.image('button', 'assets/btn.png')
+}
 
 var button;
 var debugConsole = null;
@@ -144,9 +146,9 @@ function create ()
 function update ()
 {
 }
+// ## GAME CALLBACKS END
 
-// BROWSER
-
+// ## UTIL LIB
 function getParameters() {
     var url = new URL(window.location.href)
     var gameId = url.searchParams.get('gameId') || createGameId();
@@ -164,24 +166,10 @@ function getParameters() {
     }
 }
 
-// From https://gist.github.com/6174/6062387
 function createGameId() {
+    // From https://gist.github.com/6174/6062387
     return [...Array(64)].map(i=>(~~(Math.random()*36)).toString(36)).join('')
 }
-
-console.log("GameId: " + parameters.gameId);
-console.log("Player: " + parameters.player);
-
-// PEER
-/*
-var peer = new Peer();
-peer.on('connection', function(conn) {
-    conn.on('data', function(data){
-      // Will print 'hi!'
-      console.log(data);
-    });
-  });
-*/
 
 function get(id) {
     return document.getElementById(id)
@@ -193,3 +181,4 @@ function debug(text, line=1.0) {
         debugConsole.setText(text)
     }
 }
+// ## UTIL LIB END
