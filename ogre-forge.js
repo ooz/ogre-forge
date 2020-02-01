@@ -181,8 +181,8 @@ function _isValidPlayer() {
 function update() {
     this._initUI();
 
-    if (_isValidPlayer()) {
-        if (gyroMagnitude >= 10.0) {
+    if (_isValidPlayer() && conn != null) {
+        if (gyroMagnitude >= 18.0) {
             debug("Gyro: " + gyroMagnitude);
             conn.send(players.me.number + '_bash');
             gyroMagnitude = 0.0;
