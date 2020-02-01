@@ -200,7 +200,7 @@ function update(time, delta) {
         gameState.gold -= (GOLD_LOSS_PER_SEC / 1000.0) * delta;
         gameState.gold = Math.max(gameState.gold, 0);
         if (time - gameState.lastPrintTimeInMs >= 3000) {
-            debug("Gold: " + gameState.gold)
+            debug("Gold: " + gameState.gold.toFixed(0))
             gameState.lastPrintTimeInMs = time;
         }
     }
