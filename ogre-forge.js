@@ -1,15 +1,20 @@
+var parameters = getParameters();
+
+var WIDTH = (parameters.player === 'screen') ? 600 : 400;
+var HEIGHT = (parameters.player === 'screen') ? 400 : 600;
+
 var config = {
     type: Phaser.AUTO,
-    width: 600,
-    height: 400,
+    width: WIDTH,
+    height: HEIGHT,
     parent: 'game-container',
     fullscreenTarget: 'game-container',
     scale: {
         mode: Phaser.Scale.FIT,
         parent: 'game-container',
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 600,
-        height: 400
+        width: WIDTH,
+        height: HEIGHT
     },
     scene: {
         preload: preload,
@@ -50,9 +55,43 @@ function create ()
         }
     }, this);
 
-
+    var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=' + parameters.gameId + '&player=p';
+    get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 }
 
 function update ()
 {
+}
+
+// BROWSER
+
+function getParameters() {
+    var url = new URL(window.location.href)
+    return {
+        'gameId': url.searchParams.get('gameId') || createGameId(),
+        'player': url.searchParams.get('player') || 'screen'
+    }
+}
+
+// From https://gist.github.com/6174/6062387
+function createGameId() {
+    return [...Array(64)].map(i=>(~~(Math.random()*36)).toString(36)).join('')
+}
+
+console.log("GameId: " + parameters.gameId);
+
+
+// PEER
+/*
+var peer = new Peer();
+peer.on('connection', function(conn) {
+    conn.on('data', function(data){
+      // Will print 'hi!'
+      console.log(data);
+    });
+  });
+*/
+
+function get(id) {
+    return document.getElementById(id)
 }
