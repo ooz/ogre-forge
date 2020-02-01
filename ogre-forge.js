@@ -61,14 +61,13 @@ if (parameters.player === 'screen') {
         });
       });
 } else {
-    peer = new Peer(parameters.playerId, {debug: 3});
+    peer = new Peer();
 }
 
 var conn = null;
 if (parameters.player != 'screen') {
     conn = peer.connect(parameters.gameId);
     conn.on('open', function() {
-      // here you have conn.id
       conn.send('hi_' + parameters.playerId);
     });
     conn.on('data', function(data) {
