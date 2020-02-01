@@ -171,7 +171,7 @@ function _initUI() {
 
 function _onGyro(o) {
     let magnitude = Math.sqrt(o.x * o.x + o.y * o.y + o.z * o.z);
-    gyroMagnitude = Math.max(magnitude, arm.gyroMagnitude);
+    gyroMagnitude = Math.max(magnitude, gyroMagnitude);
 }
 
 function _isValidPlayer() {
