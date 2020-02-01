@@ -182,6 +182,7 @@ function update() {
     this._initUI();
 
     if (_isValidPlayer()) {
+        debug("Gyro: " + gyroMagnitude);
         if (gyroMagnitude >= 20.0) {
             conn.send(players.me.number + '_bash');
             gyroMagnitude = 0.0;
