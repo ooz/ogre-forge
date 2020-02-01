@@ -32,7 +32,7 @@ function preload ()
 
 var peer;
 if (parameters.player == 'screen') {
-    peer = new Peer(parameters.gameId);
+    peer = new Peer(parameters.gameId, {debug: 3});
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
           // Will print 'hi!'
