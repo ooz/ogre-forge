@@ -108,8 +108,8 @@ function preload ()
 {
     this.load.image('button', 'assets/btn.png')
     if (parameters.player != 'screen') {
-        this.load.image('p1_foot', 'assets/ogre_foot_p1.png')
-        this.load.image('p2_foot', 'assets/ogre_foot_p2.png')
+        this.load.image('p1_foot', 'assets/stomp_p1.png')
+        this.load.image('p2_foot', 'assets/stomp_p2.png')
     }
 }
 
