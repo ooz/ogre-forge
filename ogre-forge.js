@@ -175,7 +175,7 @@ function _initUI() {
                 }
             }
         });
-        this.add.image(WIDTH / 2, 450, players.me.number + '_head');
+        this.add.image(WIDTH / 2, 500, players.me.number + '_head');
 
         if (gyro.hasFeature('devicemotion')) {
             gyro.frequency = 50; // ms
