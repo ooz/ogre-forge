@@ -81,7 +81,7 @@ if (parameters.player != 'screen') {
 
 
 var button;
-var debugConsole;
+var debugConsole = null;
 function create ()
 {
     //this.add.image(400, 300, 'sky');
@@ -160,7 +160,7 @@ function get(id) {
 
 function debug(text, line=1.0) {
     console.log(text);
-    debugConsole.setText(
-        [text]
-    )
+    if (debugConsole != null) {
+        debugConsole.setText(text)
+    }
 }
