@@ -129,10 +129,12 @@ function preload() {
 
 var debugConsole = null;
 var anvil = null;
+var paused = true;
 function create() {
     this.input.on('pointerup', function (pointer) {
         if (!game.scale.isFullscreen) {
             game.scale.startFullscreen()
+            paused = false;
         }
         /*
         else {
@@ -208,6 +210,7 @@ function _initGameState() {
 }
 function update(time, delta) {
     this._initUI();
+    if (!game.scale.isFullScreen) game.paused = true;
 
     if (_isValidPlayer() && conn != null) {
         if (gyroMagnitude >= 23.0) {
@@ -216,13 +219,7 @@ function update(time, delta) {
             gyroMagnitude = 0.0;
         }
     } else if (_isGameScreen()) {
-        // Gold update
-        gameState.gold -= (GOLD_LOSS_PER_SEC / 1000.0) * delta;
-        gameState.gold = Math.max(gameState.gold, 0);
-        if (time - gameState.lastPrintTimeInMs >= 3000) {
-            debug("Gold: " + gameState.gold.toFixed(0))
-            gameState.lastPrintTimeInMs = time;
-        }
+        _updateGold(time, delta)
 
         // P1 input
         if (players.p1.commands.length > 0) {
@@ -246,6 +243,16 @@ function update(time, delta) {
             }
             if (anvil != null) anvil.shake.shake();
         }
+    }
+}
+function _updateGold(time, delta) {
+    if (paused) return;
+
+    gameState.gold -= (GOLD_LOSS_PER_SEC / 1000.0) * delta;
+    gameState.gold = Math.max(gameState.gold, 0);
+    if (time - gameState.lastPrintTimeInMs >= 3000) {
+        debug("Gold: " + gameState.gold.toFixed(0))
+        gameState.lastPrintTimeInMs = time;
     }
 }
 // ## GAME CALLBACKS END
