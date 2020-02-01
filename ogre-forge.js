@@ -226,7 +226,7 @@ function _initGameState() {
 }
 function update(time, delta) {
     this._initUI();
-    if (!game.scale.isFullScreen) game.paused = true;
+    if (!game.scale.isFullScreen) paused = true;
 
     if (_isValidPlayer() && conn != null) {
         if (gyroMagnitude >= 23.0) {
