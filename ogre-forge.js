@@ -15,7 +15,7 @@ var WIDTH = (_isGameScreen()) ? 600 : 300;
 var HEIGHT = (_isGameScreen()) ? 300 : 600;
 
 var config = {
-    type: (_isGameScreen()) ? Phaser.AUTO : Phaser.WEBGL,
+    type: (_isGameScreen()) ? Phaser.AUTO : Phaser.CANVAS,
     width: WIDTH,
     height: HEIGHT,
     parent: 'game-container',
