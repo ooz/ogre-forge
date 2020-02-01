@@ -110,7 +110,9 @@ if (!_isGameScreen()) {
 
 // ## GAME CALLBACKS
 function preload() {
-    if (!_isGameScreen()) {
+    if (_isGameScreen()) {
+        this.load.image('smithy_bg', 'assets/smithy_bg.png')
+    } else {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
         this.load.image('p2_foot', 'assets/stomp_p2.png')
     }
@@ -118,7 +120,6 @@ function preload() {
 
 var debugConsole = null;
 function create() {
-    //this.add.image(400, 300, 'sky');
     debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
 
     this.input.on('pointerup', function (pointer) {
@@ -131,6 +132,10 @@ function create() {
         }
         */
     }, this);
+
+    if (_isGameScreen()) {
+        this.add.image(300, 150, 'smithy_bg');
+    }
 
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=pp_' + parameters.gameId;
     // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
