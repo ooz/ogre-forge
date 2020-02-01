@@ -250,6 +250,7 @@ function update(time, delta) {
             if (players.body != null && cmd == 'stomp') players.body.shake.shake();
             if (players.p1.head != null && cmd == 'bash') players.p1.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
+            debug("Paused: " + paused)
         }
         // P2 input
         if (players.p2.commands.length > 0) {
@@ -263,6 +264,7 @@ function update(time, delta) {
             if (players.body != null && cmd == 'stomp') players.body.shake.shake();
             if (players.p2.head != null && cmd == 'bash') players.p2.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
+            debug("Paused: " + paused)
         }
     }
 }
