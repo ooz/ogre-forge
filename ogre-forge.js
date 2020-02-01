@@ -107,14 +107,17 @@ if (parameters.player != 'screen') {
 function preload ()
 {
     this.load.image('button', 'assets/btn.png')
+    if (parameters.player != 'screen') {
+        this.load.image('p1_foot', 'assets/ogre_foot_p1.png')
+        this.load.image('p2_foot', 'assets/ogre_foot_p2.png')
+    }
 }
 
-var button;
+var button = null;
 var debugConsole = null;
 function create ()
 {
     //this.add.image(400, 300, 'sky');
-
     debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
 
     this.input.on('pointerup', function (pointer) {
@@ -128,23 +131,32 @@ function create ()
         */
     }, this);
 
-    button = this.add.sprite(100, 100, 'button').setInteractive();
-    button.on('pointerup', function () {
-        debug('btn down');
-        if (conn != null) {
-            if (players.me.number == 'p1' || players.me.number == 'p2') {
-                conn.send(players.me.number + '_stomp');
-            }
-        }
-    });
-
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=pp_' + parameters.gameId;
     // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 }
 
-function update ()
-{
+function _initUI() {
+    if (button != null) return;
+
+    if (_isValidPlayer()) {
+        button = game.add.sprite(0, 200, players.me.number + '_foot').setInteractive();
+        button.on('pointerup', function () {
+            if (conn != null) {
+                if (_isValidPlayer()) {
+                    conn.send(players.me.number + '_stomp');
+                }
+            }
+        });
+    }
+}
+
+function _isValidPlayer() {
+    return players.me.number == 'p1' || players.me.number == 'p2';
+}
+
+function update () {
+    _initUI();
 }
 // ## GAME CALLBACKS END
 
