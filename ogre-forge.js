@@ -115,7 +115,6 @@ function preload() {
     }
 }
 
-var button = null;
 var debugConsole = null;
 function create() {
     //this.add.image(400, 300, 'sky');
@@ -137,6 +136,8 @@ function create() {
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 }
 
+var button = null;
+var gyroMagnitude = 0.0;
 function _initUI() {
     if (button != null) return;
 
@@ -149,7 +150,28 @@ function _initUI() {
                 }
             }
         });
+
+        if (gyro.hasFeature('devicemotion')) {
+            gyro.frequency = 50; // ms
+            gyro.startTracking(_onGyro);
+        }
+
+        /*
+        let gyroscope = new Gyroscope({frequency: 60});
+
+        gyroscope.addEventListener('reading', e => {
+            console.log("Angular velocity along the X-axis " + gyroscope.x);
+            console.log("Angular velocity along the Y-axis " + gyroscope.y);
+            console.log("Angular velocity along the Z-axis " + gyroscope.z);
+        });
+        gyroscope.start();
+        */
     }
+}
+
+function _onGyro(o) {
+    let magnitude = Math.sqrt(o.x * o.x + o.y * o.y + o.z * o.z);
+    gyroMagnitude = Math.max(magnitude, arm.gyroMagnitude);
 }
 
 function _isValidPlayer() {
@@ -158,6 +180,13 @@ function _isValidPlayer() {
 
 function update() {
     this._initUI();
+
+    if (_isValidPlayer()) {
+        if (gyroMagnitude >= 20.0) {
+            conn.send(players.me.number + '_bash');
+            gyroMagnitude = 0.0;
+        }
+    }
 }
 // ## GAME CALLBACKS END
 
