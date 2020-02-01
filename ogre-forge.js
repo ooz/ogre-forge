@@ -183,17 +183,6 @@ function _initUI() {
         }
 
         this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#c2b280");
-
-        /*
-        let gyroscope = new Gyroscope({frequency: 60});
-
-        gyroscope.addEventListener('reading', e => {
-            console.log("Angular velocity along the X-axis " + gyroscope.x);
-            console.log("Angular velocity along the Y-axis " + gyroscope.y);
-            console.log("Angular velocity along the Z-axis " + gyroscope.z);
-        });
-        gyroscope.start();
-        */
     }
 }
 
@@ -222,7 +211,7 @@ function update(time, delta) {
 
     if (_isValidPlayer() && conn != null) {
         if (gyroMagnitude >= 23.0) {
-            debug("Gyro: " + gyroMagnitude);
+            //debug("Gyro: " + gyroMagnitude);
             conn.send(players.me.number + '_bash');
             gyroMagnitude = 0.0;
         }
