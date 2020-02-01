@@ -111,6 +111,7 @@ if (!_isGameScreen()) {
 // ## GAME CALLBACKS
 function preload() {
     if (_isGameScreen()) {
+        this.load.image('anvil', 'assets/anvil.png')
         this.load.image('smithy_bg', 'assets/smithy_bg.png')
     } else {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
@@ -133,6 +134,7 @@ function create() {
 
     if (_isGameScreen()) {
         this.add.image(300, 150, 'smithy_bg');
+        this.add.image(300, 220, 'anvil');
     }
 
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=pp_' + parameters.gameId;
