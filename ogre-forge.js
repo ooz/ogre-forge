@@ -114,6 +114,8 @@ function preload() {
         this.load.image('anvil', 'assets/anvil.png')
         this.load.image('smithy_bg', 'assets/smithy_bg.png')
         this.load.image('ogre_body', 'assets/ogre_body_short.png')
+        this.load.image('ogre_head1', 'assets/ogre1.png')
+        this.load.image('ogre_head2', 'assets/ogre2.png')
     } else {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
         this.load.image('p2_foot', 'assets/stomp_p2.png')
@@ -135,8 +137,10 @@ function create() {
 
     if (_isGameScreen()) {
         this.add.image(300, 150, 'smithy_bg');
-        this.add.image(300, 150, 'ogre_body');
-        this.add.image(300, 320, 'anvil');
+        this.add.image(300, 140, 'ogre_body');
+        this.add.image(200, 100, 'ogre_head1');
+        this.add.image(400, 100, 'ogre_head2');
+        this.add.image(300, 325, 'anvil');
     }
 
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=pp_' + parameters.gameId;
