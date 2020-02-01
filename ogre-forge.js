@@ -75,11 +75,9 @@ if (parameters.player == 'screen') {
           }
           if (data.startsWith('p1_')) {
             var command = data.substr(3);
-            debug("Player 1: " + command);
           }
           if (data.startsWith('p2_')) {
             var command = data.substr(3);
-            debug("Player 2: " + command);
           }
         });
       });
