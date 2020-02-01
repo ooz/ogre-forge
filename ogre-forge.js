@@ -137,9 +137,9 @@ function create() {
 
     if (_isGameScreen()) {
         this.add.image(300, 150, 'smithy_bg');
-        this.add.image(300, 140, 'ogre_body');
-        this.add.image(250, 110, 'ogre_head1');
-        this.add.image(350, 110, 'ogre_head2');
+        this.add.image(300, 135, 'ogre_body');
+        this.add.image(250, 105, 'ogre_head1');
+        this.add.image(350, 105, 'ogre_head2');
         this.add.image(300, 325, 'anvil');
     }
 
