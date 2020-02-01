@@ -30,6 +30,24 @@ function preload ()
     this.load.image('button', 'assets/btn.png')
 }
 
+var peer = new Peer();
+var conn;
+
+var conn = peer.connect(parameters.gameId);
+// on open will be launch when you successfully connect to PeerServer
+conn.on('open', function(){
+  // here you have conn.id
+  conn.send('hi!');
+});
+
+
+peer.on('connection', function(conn) {
+    conn.on('data', function(data){
+      // Will print 'hi!'
+      console.log(data);
+    });
+  });
+
 var button;
 function create ()
 {
@@ -49,6 +67,7 @@ function create ()
     button = this.add.sprite(100, 100, 'button').setInteractive();
     button.on('pointerup', function () {
         console.log('btn down');
+        conn.send("blub");
     });
 
     var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=p1_' + parameters.gameId;
