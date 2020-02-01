@@ -115,8 +115,8 @@ function preload() {
         this.load.image('anvil', 'assets/anvil.png')
         this.load.image('smithy_bg', 'assets/smithy_bg.png')
         this.load.image('ogre_body', 'assets/ogre_body_short.png')
-        this.load.image('ogre_head1', 'assets/ogre1.png')
-        this.load.image('ogre_head2', 'assets/ogre2.png')
+        this.load.image('p1_head', 'assets/ogre1.png')
+        this.load.image('p2_head', 'assets/ogre2.png')
 
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
         this.load.plugin('rexshakepositionplugin', pluginUrl, true);
@@ -143,8 +143,8 @@ function create() {
     if (_isGameScreen()) {
         this.add.image(300, 150, 'smithy_bg');
         this.add.image(300, 135, 'ogre_body');
-        this.add.image(250, 105, 'ogre_head1');
-        this.add.image(350, 105, 'ogre_head2');
+        this.add.image(250, 105, 'p1_head');
+        this.add.image(350, 105, 'p2_head');
         anvil = this.add.image(300, 325, 'anvil');
         anvil.shake = this.plugins.get('rexshakepositionplugin').add(anvil, {
             duration: 300,
@@ -174,6 +174,7 @@ function _initUI() {
                 }
             }
         });
+        this.add.image(WIDTH / 2, 450, players.me.number + '_head');
 
         if (gyro.hasFeature('devicemotion')) {
             gyro.frequency = 50; // ms
