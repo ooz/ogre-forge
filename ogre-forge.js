@@ -157,6 +157,8 @@ function _initUI() {
             gyro.startTracking(_onGyro);
         }
 
+        this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#c2b280");
+
         /*
         let gyroscope = new Gyroscope({frequency: 60});
 
