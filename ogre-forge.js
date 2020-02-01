@@ -97,12 +97,12 @@ if (!_isGameScreen()) {
       conn.send('hi_' + parameters.playerId);
     });
     conn.on('data', function(data) {
-        debug('From game: ' + data);
+        //debug('From game: ' + data);
         var command = data.substr(3);
         if (data.startsWith('pl_')) {
             players.me.number = 'p' + command;
             if (command == '0') {
-                debug('Game full! Max. 2 players allowed! :(')
+                debug('Game full! Max. 2 players! x_x')
             }
         }
     });
