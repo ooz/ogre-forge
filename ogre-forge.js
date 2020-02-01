@@ -101,7 +101,7 @@ function create ()
 
     button = this.add.sprite(100, 100, 'button').setInteractive();
     button.on('pointerup', function () {
-        console.log('btn down');
+        debug('btn down');
         if (conn != null) {
             conn.send("blub");
         }
