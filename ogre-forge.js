@@ -115,8 +115,6 @@ function preload() {
         this.load.image('anvil', 'assets/anvil.png')
         this.load.image('smithy_bg', 'assets/smithy_bg.png')
         this.load.image('ogre_body', 'assets/ogre_body_short.png')
-        this.load.image('p1_head', 'assets/ogre1.png')
-        this.load.image('p2_head', 'assets/ogre2.png')
 
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
         this.load.plugin('rexshakepositionplugin', pluginUrl, true);
@@ -124,6 +122,9 @@ function preload() {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
         this.load.image('p2_foot', 'assets/stomp_p2.png')
     }
+
+    this.load.image('p1_head', 'assets/ogre1.png')
+    this.load.image('p2_head', 'assets/ogre2.png')
 }
 
 var debugConsole = null;
