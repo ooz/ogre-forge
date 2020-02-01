@@ -43,12 +43,14 @@ var players = {
     p1: {
         id: null,
         conn: null,
-        commands: []
+        commands: [],
+        head: null
     },
     p2: {
         id: null,
         conn: null,
-        commands: []
+        commands: [],
+        head: null
     },
     me: {
         number: null
@@ -148,8 +150,16 @@ function create() {
     if (_isGameScreen()) {
         this.add.image(300, 150, 'smithy_bg');
         this.add.image(300, 135, 'ogre_body');
-        this.add.image(250, 105, 'p1_head');
-        this.add.image(350, 105, 'p2_head');
+        players.p1.head = this.add.image(250, 105, 'p1_head');
+        players.p1.head.shake = this.plugins.get('rexshakepositionplugin').add(players.p1.head, {
+            duration: 150,
+            magnitude: 1,
+        }).on('complete', function () {});
+        players.p2.head = this.add.image(350, 105, 'p2_head');
+        players.p2.head.shake = this.plugins.get('rexshakepositionplugin').add(players.p2.head, {
+            duration: 150,
+            magnitude: 1,
+        }).on('complete', function () {});
         anvil = this.add.image(300, 325, 'anvil');
         anvil.shake = this.plugins.get('rexshakepositionplugin').add(anvil, {
             duration: 300,
@@ -232,6 +242,7 @@ function update(time, delta) {
             } else if (cmd == 'stomp') {
                 // move obj left
             }
+            if (players.p1.head != null) players.p1.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
         }
         // P2 input
@@ -243,6 +254,7 @@ function update(time, delta) {
             } else if (cmd == 'stomp') {
                 // move obj right
             }
+            if (players.p2.head != null) players.p2.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
         }
     }
