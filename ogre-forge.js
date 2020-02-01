@@ -62,18 +62,20 @@ if (_isGameScreen()) {
     peer.on('connection', function(conn) {
         conn.on('data', function(data){
           if (data.startsWith('hi_')) {
-            debug(data)
             var playerId = data.substr(3);
             if (players.p1.id == null) {
                 players.p1.id = playerId;
                 players.p1.conn = conn;
                 conn.send('pl_1');
+                debug('Welcome left head!')
             } else if (players.p2.id == null) {
                 players.p2.id = playerId;
                 players.p2.conn = conn;
                 conn.send('pl_2');
+                debug('Welcome right head!')
             } else {
                 conn.send('pl_0'); // reject
+                debug('Another head wanted to join?! O_o')
             }
           }
           if (data.startsWith('p1_')) {
