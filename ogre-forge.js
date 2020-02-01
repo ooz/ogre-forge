@@ -136,7 +136,7 @@ function create ()
         }
     });
 
-    var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=p1_' + parameters.gameId;
+    var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=pp_' + parameters.gameId;
     // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 }
