@@ -392,6 +392,10 @@ var sounds = {
     woosh: null,
     krachBumm: null
 }
+var effects = {
+    bash: null,
+    magic: null
+}
 //var lastSound = null;
 function playSound(sound, delay=0) {
     if (delay == 0) {
@@ -437,6 +441,11 @@ function create() {
         }).on('complete', function () {});
 
         this._newWeapon(FIRST_WEAPON);
+
+        effects.bash = this.add.image(300, 250, 'bash');
+        effects.bash.alpha = 0.0;
+        effects.magic = this.add.image(300, 250, 'magic');
+        effects.magic.alpha = 0.0;
 
         sounds.kaching = this.sound.add('kaching');
         sounds.stomp = this.sound.add('stomp');
@@ -555,6 +564,7 @@ function update(time, delta) {
         }
     } else if (_isGameScreen()) {
         _updateGold(time, delta)
+        _updateEffects(time, delta);
 
         if (weapon.primary.claimed) {
             var nextWeapon = random(0, 3);
@@ -567,7 +577,7 @@ function update(time, delta) {
             var cmd = players.p1.commands.shift();
             //debug("P1: " + cmd);
             if (cmd == 'bash') {
-                gameState.gold += 10;
+                effects.magic.alpha = 1.0;
                 weapon.primary.magic();
             } else if (cmd == 'stomp') {
                 weapon.primary.moveLeft();
@@ -581,7 +591,7 @@ function update(time, delta) {
             var cmd = players.p2.commands.shift();
             //debug("P2: " + cmd);
             if (cmd == 'bash') {
-                gameState.gold += 10;
+                effects.bash.alpha = 1.0;
                 weapon.primary.bash();
             } else if (cmd == 'stomp') {
                 weapon.primary.moveRight();
@@ -602,6 +612,23 @@ function _updateGold(time, delta) {
     if (time - gameState.lastPrintTimeInMs >= 3000) {
         debug("Gold: " + gameState.gold.toFixed(0))
         gameState.lastPrintTimeInMs = time;
+    }
+}
+function _updateEffects(time, delta) {
+    if (effects.bash == null || effects.magic == null) return;
+
+    var bashAlpha = effects.bash.alpha;
+    if (bashAlpha > 0.0) {
+        bashAlpha -= 0.09;
+        if (bashAlpha < 0.0) bashAlpha = 0.0;
+        effects.bash.alpha = bashAlpha;
+    }
+
+    var magicAlpha = effects.magic.alpha;
+    if (magicAlpha > 0.0) {
+        magicAlpha -= 0.08;
+        if (magicAlpha < 0.0) magicAlpha = 0.0;
+        effects.magic.alpha = magicAlpha;
     }
 }
 // ## GAME CALLBACKS END
