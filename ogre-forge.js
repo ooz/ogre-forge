@@ -276,7 +276,27 @@ function _initUI() {
     if (button != null) return;
 
     if (_isValidPlayer()) {
-        this.add.image(WIDTH / 2, 500, players.me.number + '_head');
+        if (parameters.singlePlayer) {
+            var button2 = this.add.sprite(WIDTH / 2, 450, 'p2_foot').setInteractive();
+            button2.on('pointerup', function () {
+                if (conn != null) {
+                    if (_isValidPlayer()) {
+                        conn.send('p2_stomp');
+                    }
+                }
+            });
+            var bashButton2 = this.add.sprite(WIDTH / 2, 150, 'p2_head').setInteractive();
+            bashButton2.on('pointerup', function () {
+                if (conn != null) {
+                    if (_isValidPlayer()) {
+                        conn.send('p2_bash');
+                    }
+                }
+            });
+        } else {
+            this.add.image(WIDTH / 2, 500, players.me.number + '_head');
+        }
+
         button = this.add.sprite(WIDTH / 2, HEIGHT / 2, players.me.number + '_foot').setInteractive();
         button.on('pointerup', function () {
             if (conn != null) {
