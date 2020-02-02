@@ -172,36 +172,38 @@ var weapon = {
         exists: function() {
             return this.sprite != null;
         },
+        isOnAnvil: function() {
+            return this.position >= 0 && this.position <= 2;
+        },
         moveLeft: function() {
-            if (this.sprite == null || !this.isOnAnvil()) { return; }
+            if (this.sprite == null) { return; }
+            playSound(sounds.stomp);
+            if (!this.isOnAnvil()) { return; }
+
             this.position -= 1;
             if (this.position < 0) {
                 this.fallOff();
             }
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
-
-            playSound(sounds.stomp);
-        },
-        isOnAnvil: function() {
-            return this.position >= 0 && this.position <= 2;
         },
         moveRight: function() {
-            if (this.sprite == null || !this.isOnAnvil()) { return; }
+            if (this.sprite == null) { return; }
+            playSound(sounds.stomp);
+            if (!this.isOnAnvil()) { return; }
+
             this.position += 1;
             if (this.position > 2) {
                 this.fallOff();
             }
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
-
-            playSound(sounds.stomp);
         },
         fallOff: function() {
             if (this.sprite == null) { return; }
 
             this.target = targetForPosition(this.position);
-            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
+            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 3)
         },
         bash: function() {
             if (this.sprite == null) { return; }
@@ -222,7 +224,7 @@ var weapon = {
             if (this.sprite.body.speed > 0) {
                 var distance = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
 
-                if (distance < 8) { // Reached target
+                if (distance < 8 || (this.sprite.y > 310 && distance < 16)) { // Reached target, higher tolerance for speedy offscreen move
                     this.sprite.body.reset(this.target.x, this.target.y);
 
                     if (this.sprite.y > 330) { // Sprite is offscreen, fell off --> KrachBumm sound, destroy and spawn new weapon
