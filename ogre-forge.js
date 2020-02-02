@@ -238,9 +238,9 @@ function targetForPosition(position) {
     var x = 300;
     var y = 270;
     if (position == 0) {
-        x = 180;
+        x = 220;
     } else if (position == 2) {
-        x = 420;
+        x = 380;
     }
     return {
         x: x,
