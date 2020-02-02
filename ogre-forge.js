@@ -260,8 +260,9 @@ function update(time, delta) {
             debug("P1: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
+                weapon.primary.bash();
             } else if (cmd == 'stomp') {
-                // move obj left
+                weapon.primary.moveLeft();
             }
             if (players.body != null && cmd == 'stomp') players.body.shake.shake();
             if (players.p1.head != null && cmd == 'bash') players.p1.head.shake.shake();
@@ -274,8 +275,9 @@ function update(time, delta) {
             debug("P2: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
+                weapon.primary.magic();
             } else if (cmd == 'stomp') {
-                // move obj right
+                weapon.primary.moveRight();
             }
             if (players.body != null && cmd == 'stomp') players.body.shake.shake();
             if (players.p2.head != null && cmd == 'bash') players.p2.head.shake.shake();
@@ -303,6 +305,9 @@ var weapon = {
         position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
         model: {},
         gain: 0,
+        exists: function() {
+            return this.sprite != null;
+        },
         moveLeft: function() {
             if (this.sprite == null) { return; }
             this.position -= 1;
