@@ -292,9 +292,7 @@ var weapon = {
                 }
             }
         }
-    },
-    queue: null,
-    fadeoutQueue: null
+    }
 };
 function _newWeapon(type, initialPosition=1) {
     weapon.primary.type = type;
