@@ -166,6 +166,7 @@ var weapon = {
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
             if (this.position < 0) {
+                this.position = 0;
                 this.fallOff();
             }
         },
@@ -175,6 +176,7 @@ var weapon = {
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
             if (this.position > 2) {
+                this.position = 2;
                 this.fallOff();
             }
         },
@@ -311,7 +313,15 @@ function _initUI() {
                     }
                 }
             });
-            var bashButton2 = this.add.sprite(WIDTH / 2, 150, 'p2_head').setInteractive();
+            var bashButton1 = this.add.sprite(75, 100, 'p1_head').setInteractive();
+            bashButton1.on('pointerup', function () {
+                if (conn != null) {
+                    if (_isValidPlayer()) {
+                        conn.send('p1_bash');
+                    }
+                }
+            });
+            var bashButton2 = this.add.sprite(225, 100, 'p2_head').setInteractive();
             bashButton2.on('pointerup', function () {
                 if (conn != null) {
                     if (_isValidPlayer()) {
