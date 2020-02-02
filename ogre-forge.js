@@ -31,6 +31,10 @@ var config = {
         width: WIDTH,
         height: HEIGHT
     },
+    physics: {
+        default: 'arcade',
+        arcade: { debug: true }
+    },
     scene: {
         preload: preload,
         create: create,
@@ -294,17 +298,44 @@ function _updateGold(time, delta) {
 var weapon = {
     primary: {
         sprite: null,
+        physics: null,
         type: '',
         position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
         model: {},
-        gain: 0
+        gain: 0,
+        moveLeft: function() {
+            if (this.sprite == null) { return; }
+            this.position -= 1;
+            this.physics.moveTo(this.sprite, 150, 270)
+            if (this.position < 0) {
+                this.fallOff();
+            }
+        },
+        moveRight: function() {
+            if (this.sprite == null) { return; }
+            this.position += 1;
+            this.physics.moveTo(this.sprite, 450, 270)
+            if (this.position > 2) {
+                this.fallOff();
+            }
+        },
+        fallOff: function() {
+            if (this.sprite == null) { return; }
+        },
+        bash: function() {
+            if (this.sprite == null) { return; }
+        },
+        magic: function() {
+            if (this.sprite == null) { return; }
+        }
     },
     queue: null,
     fadeoutQueue: null
 };
 function _newWeapon(type) {
     weapon.primary.type = type;
-    weapon.primary.sprite = this.add.sprite(300, 270, type)
+    weapon.primary.sprite = this.physics.add.image(300, 270, type)
+    weapon.primary.physics = this.physics;
     if (type == 'hammer') {
         weapon.primary.model = newWeaponModel(0, 0, 0, 0, 2, 0);
         weapon.primary.gain = 100;
