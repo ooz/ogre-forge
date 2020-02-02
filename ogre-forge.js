@@ -200,7 +200,7 @@ var weapon = {
         bash: function() {
             if (this.sprite == null) { return; }
 
-            if (random(0, 1)) {
+            if (random(1, 2) == 1) {
                 playSound(sounds.kling);
             } else {
                 playSound(sounds.klingPitch);
@@ -435,7 +435,7 @@ function update(time, delta) {
             debug("P1: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
-                weapon.primary.bash();
+                weapon.primary.magic();
             } else if (cmd == 'stomp') {
                 weapon.primary.moveLeft();
             }
@@ -450,7 +450,7 @@ function update(time, delta) {
             debug("P2: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
-                weapon.primary.magic();
+                weapon.primary.bash();
             } else if (cmd == 'stomp') {
                 weapon.primary.moveRight();
             }
