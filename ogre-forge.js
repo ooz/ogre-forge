@@ -12,6 +12,7 @@ p2_<action>       .. player 2 action command
 
 const WEAPON_TYPES = ['hammer', 'sword', 'staff', 'heart']
 const FIRST_WEAPON = 'hammer'
+const DEBUG = false;
 
 var parameters = getParameters();
 
@@ -33,7 +34,7 @@ var config = {
     },
     physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: DEBUG }
     },
     scene: {
         preload: preload,
