@@ -129,7 +129,7 @@ function preload() {
         // Screen / PC / game assets only
         this.load.image('anvil', 'assets/anvil.png')
         this.load.image('smithy_bg', 'assets/smithy_bg.png')
-        this.load.image('ogre_body', 'assets/ogre_body_short.png')
+        this.load.image('ogre_body', 'assets/ogre_body_short_bb.png')
 
         this.load.image('hammer', 'assets/hammer.png')
         this.load.image('sword', 'assets/sword.png')
