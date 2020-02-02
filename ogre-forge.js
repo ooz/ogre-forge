@@ -443,7 +443,7 @@ function create() {
 
         this._newWeapon(FIRST_WEAPON);
 
-        effects.bash = this.add.image(300, 265, 'bash');
+        effects.bash = this.add.image(300, 263, 'bash');
         effects.bash.alpha = 0.0;
         effects.bash.setDepth(99);
         effects.magic = this.add.image(300, 250, 'magic');
