@@ -295,7 +295,7 @@ function _newWeapon(type, initialPosition=1) {
     weapon.primary.position = initialPosition;
     var screenPosition = targetForPosition(initialPosition);
     weapon.primary.sprite = this.physics.add.image(screenPosition.x, screenPosition.y, type)
-    weapon.primary.sprite.setTint(0xb7410e) // rust color
+    if (type != 'heart') weapon.primary.sprite.setTint(0xb7410e); // rust color
     weapon.primary.physics = this.physics;
     weapon.primary.alive = true;
     weapon.primary.claimed = false;
