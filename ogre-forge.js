@@ -166,6 +166,7 @@ var weapon = {
         sprite: null,
         physics: null,
         alive: true,
+        claimed: false,
         type: '',
         position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
         target: {x: 300, y: 270},
@@ -271,13 +272,13 @@ var weapon = {
                         playSound(sounds.krachBumm);
                         gameState.gold -= this.loss;
                         debug("-" + this.loss + " Gold");
-                        _newWeapon('staff');
+                        this.claimed = true;
                     } else if (this.sprite.y < -30) { // Sprite lifted offscreen, successfully repaired --> Kaching sound, destroy, get gold and spawn new weapon
                         debug("REPAIRED")
                         playSound(sounds.kaching);
                         gameState.gold += this.gain;
                         debug("+" + this.gain + " Gold");
-                        _newWeapon('sword');
+                        this.claimed = true;
                     }
                 }
             }
@@ -292,6 +293,7 @@ function _newWeapon(type) {
     weapon.primary.sprite = this.physics.add.image(300, 270, type)
     weapon.primary.physics = this.physics;
     weapon.primary.alive = true;
+    weapon.primary.claimed = false;
     if (type == 'hammer') {
         weapon.primary.model = newWeaponModel(0, 0, 0, 0, 2, 0);
         weapon.primary.gain = 100;
@@ -537,6 +539,11 @@ function update(time, delta) {
         }
     } else if (_isGameScreen()) {
         _updateGold(time, delta)
+
+        if (weapon.primary.claimed) {
+            var nextWeapon = random(0, 3);
+            this._newWeapon(WEAPON_TYPES[nextWeapon]);
+        }
 
         // P1 input
         if (players.p1.commands.length > 0) {
