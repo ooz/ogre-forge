@@ -165,6 +165,7 @@ var weapon = {
     primary: {
         sprite: null,
         physics: null,
+        alive: true,
         type: '',
         position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
         target: {x: 300, y: 270},
@@ -174,7 +175,7 @@ var weapon = {
             return this.sprite != null;
         },
         isOnAnvil: function() {
-            return this.position >= 0 && this.position <= 2;
+            return this.position >= 0 && this.position <= 2 && this.alive;
         },
         moveLeft: function() {
             if (this.sprite == null) { return; }
@@ -202,24 +203,24 @@ var weapon = {
         },
         fallOff: function() {
             if (this.sprite == null) { return; }
-
+            this.alive = false;
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 3)
         },
         breakOff: function() {
             if (this.sprite == null) { return; }
-
+            this.alive = false;
             this.target = {x: 300, y: 360}
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 3)
         },
         cashIn: function() {
             if (this.sprite == null) { return; }
-
+            this.alive = false;
             this.target = {x: 300, y: -60}
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 2)
         },
         bash: function() {
-            if (this.sprite == null) { return; }
+            if (this.sprite == null || !this.alive) { return; }
 
             if (random(1, 2) == 1) {
                 playSound(sounds.kling);
@@ -231,7 +232,7 @@ var weapon = {
             this._hit(modelKey);
         },
         magic: function() {
-            if (this.sprite == null) { return; }
+            if (this.sprite == null || !this.alive) { return; }
 
             playSound(sounds.woosh);
 
@@ -283,6 +284,7 @@ function _newWeapon(type) {
     weapon.primary.type = type;
     weapon.primary.sprite = this.physics.add.image(300, 270, type)
     weapon.primary.physics = this.physics;
+    weapon.primary.alive = true;
     if (type == 'hammer') {
         weapon.primary.model = newWeaponModel(0, 0, 0, 0, 2, 0);
         weapon.primary.gain = 100;
