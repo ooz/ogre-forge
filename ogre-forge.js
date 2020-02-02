@@ -212,6 +212,12 @@ var weapon = {
             this.target = {x: 300, y: 360}
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 3)
         },
+        cashIn: function() {
+            if (this.sprite == null) { return; }
+
+            this.target = {x: 300, y: -60}
+            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 2)
+        },
         bash: function() {
             if (this.sprite == null) { return; }
 
@@ -221,28 +227,40 @@ var weapon = {
                 playSound(sounds.klingPitch);
             }
 
-            var modelKey = 'm' + this.position;
-            this.model.hit(modelKey);
-            if (this.model.isBroken()) {
-                this.breakOff();
-            }
+            var modelKey = 'b' + this.position;
+            this._hit(modelKey);
         },
         magic: function() {
             if (this.sprite == null) { return; }
 
             playSound(sounds.woosh);
+
+            var modelKey = 'm' + this.position;
+            this._hit(modelKey);
+        },
+        _hit: function(modelKey) {
+            this.model.hit(modelKey);
+            if (this.model.isREPAIRED()) {
+                this.cashIn();
+            }
+            if (this.model.isBroken()) {
+                this.breakOff();
+            }
         },
         update: function(time, delta) {
             if (this.sprite == null) { return; }
             if (this.sprite.body.speed > 0) {
                 var distance = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
 
-                if (distance < 8 || (this.sprite.y > 310 && distance < 16)) { // Reached target, higher tolerance for speedy offscreen move
+                if (distance < 8 || (this.sprite.y > 310 && distance < 16) || (this.sprite.y < -10 && distance < 16)) { // Reached target, higher tolerance for speedy offscreen move
                     this.sprite.body.reset(this.target.x, this.target.y);
 
                     if (this.sprite.y > 330) { // Sprite is offscreen, fell off --> KrachBumm sound, destroy and spawn new weapon
                         debug("SPRITE OFFSCREEN")
                         playSound(sounds.krachBumm);
+                    } else if (this.sprite.y < -30) { // Sprite lifted offscreen, successfully repaired --> Kaching sound, destroy, get gold and spawn new weapon
+                        debug("REPAIRED")
+                        playSound(sounds.kaching);
                     }
                 }
             }
