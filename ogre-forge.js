@@ -227,7 +227,7 @@ var weapon = {
                 playSound(sounds.klingPitch);
             }
 
-            var modelKey = `b${this.position}`;
+            var modelKey = `b${this._translatePositionForHit(this.position)}`;
             this._hit(modelKey);
         },
         magic: function() {
@@ -235,8 +235,16 @@ var weapon = {
 
             playSound(sounds.woosh);
 
-            var modelKey = `m${this.position}`;
+            var modelKey = `m${this._translatePositionForHit(this.position)}`;
             this._hit(modelKey);
+        },
+        _translatePositionForHit: function(pos) {
+            if (pos == 0) {
+                return 2
+            } else if (pos == 2) {
+                return 0
+            }
+            return pos;
         },
         _hit: function(modelKey) {
             this.model.hit(modelKey);
@@ -261,6 +269,7 @@ var weapon = {
                     } else if (this.sprite.y < -30) { // Sprite lifted offscreen, successfully repaired --> Kaching sound, destroy, get gold and spawn new weapon
                         debug("REPAIRED")
                         playSound(sounds.kaching);
+                        gameState.gold += this.gain;
                     }
                 }
             }
