@@ -452,7 +452,7 @@ function create() {
     // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 
-    debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
+    debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#ffff00' });
 }
 
 var button = null;
