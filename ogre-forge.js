@@ -141,6 +141,7 @@ function preload() {
         this.load.audio('kling', ['assets/sounds/KLING.ogg', 'assets/sounds/KLING.mp3']);
         this.load.audio('kling_pitch', ['assets/sounds/KLING_PITCH.ogg', 'assets/sounds/KLING_PITCH.mp3']);
         this.load.audio('woosh', ['assets/sounds/WOOSH_RAY.ogg', 'assets/sounds/WOOSH_RAY.mp3']);
+        this.load.audio('krach_bumm', ['assets/sounds/OgreForge_Daneben.ogg', 'assets/sounds/OgreForge_Daneben.mp3']);
 
         // From https://github.com/rexrainbow/phaser3-rex-notes/blob/master/docs/docs/shake-position.md
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
@@ -229,6 +230,7 @@ var weapon = {
 
                     if (this.sprite.y > 330) { // Sprite is offscreen, fell off --> KrachBumm sound, destroy and spawn new weapon
                         debug("SPRITE OFFSCREEN")
+                        playSound(sounds.krachBumm);
                     }
                 }
             }
@@ -279,10 +281,10 @@ function targetForPosition(position) {
         x = 380;
     } else if (position < 0) {
         x = 100;
-        y = 350;
+        y = 360;
     } else if (position > 2) {
         x = 500;
-        y = 350;
+        y = 360;
     }
     return {
         x: x,
@@ -300,7 +302,8 @@ var sounds = {
     klingPitch: null,
     grunz: null,
     grunzgrunz: null,
-    woosh: null
+    woosh: null,
+    krachBumm: null
 }
 //var lastSound = null;
 function playSound(sound, delay=0) {
@@ -353,6 +356,7 @@ function create() {
         sounds.kling = this.sound.add('kling');
         sounds.klingPitch = this.sound.add('kling_pitch');
         sounds.woosh = this.sound.add('woosh');
+        sounds.krachBumm = this.sound.add('krach_bumm');
     }
 
     var gameType = (parameters.singlePlayer) ? 'sp' : 'pp';
