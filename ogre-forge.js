@@ -287,10 +287,13 @@ var weapon = {
     queue: null,
     fadeoutQueue: null
 };
-function _newWeapon(type) {
+function _newWeapon(type, initialPosition=1) {
     weapon.primary.type = type;
     if (weapon.primary.sprite != null) weapon.primary.sprite.destroy();
-    weapon.primary.sprite = this.physics.add.image(300, 270, type)
+
+    weapon.primary.position = initialPosition;
+    var screenPosition = targetForPosition(initialPosition);
+    weapon.primary.sprite = this.physics.add.image(screenPosition.x, screenPosition.y, type)
     weapon.primary.physics = this.physics;
     weapon.primary.alive = true;
     weapon.primary.claimed = false;
@@ -542,7 +545,8 @@ function update(time, delta) {
 
         if (weapon.primary.claimed) {
             var nextWeapon = random(0, 3);
-            this._newWeapon(WEAPON_TYPES[nextWeapon]);
+            var initialPosition = random(0, 2);
+            this._newWeapon(WEAPON_TYPES[nextWeapon], initialPosition);
         }
 
         // P1 input
