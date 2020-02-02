@@ -207,7 +207,7 @@ var weapon = {
             if (this.sprite == null) { return; }
             this.alive = false;
             this.target = targetForPosition(this.position);
-            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 3)
+            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 4)
         },
         breakOff: function() {
             if (this.sprite == null) { return; }
@@ -297,21 +297,26 @@ function _newWeapon(type, initialPosition=1) {
     weapon.primary.physics = this.physics;
     weapon.primary.alive = true;
     weapon.primary.claimed = false;
+    var flip = (random(0, 1)) ? true : false;
+    if (flip) {
+        weapon.primary.sprite.angle = 180;
+    }
     if (type == 'hammer') {
-        weapon.primary.model = newWeaponModel(0, 0, 0, 0, 2, 0);
+        weapon.primary.model = (!flip) ? newWeaponModel(0, 0, 0, 0, 2, 0) : newWeaponModel(2, 0, 0, 0, 0, 0);
         weapon.primary.gain = 100;
         weapon.primary.loss = 30;
     } else if (type == 'sword') {
-        weapon.primary.model = newWeaponModel(-1, 0, 1, 0, 1, 0);
+        weapon.primary.model = (!flip) ? newWeaponModel(-1, 0, 1, 0, 1, 0) : newWeaponModel(1, 0, 1, 0, -1, 0);
         weapon.primary.gain = 150;
         weapon.primary.loss = 70;
     } else if (type == 'staff') {
-        weapon.primary.model = newWeaponModel(1, 0, 1, 0, -1, 2);
+        weapon.primary.model = (!flip) ? newWeaponModel(1, 0, 1, 0, -1, 2) : newWeaponModel(-1, 2, 1, 0, 1, 0);
         weapon.primary.gain = 200;
         weapon.primary.loss = 100;
     } else if (type == 'heart') {
         weapon.primary.model = newWeaponModel(0, 0, -1, 1, 0, 0);
-        weapon.primary.gain = 1000;
+        weapon.primary.gain = 500;
+        weapon.primary.loss = 1000;
     }
 }
 // left, middle, right; B .. Bash, M .. Magic
