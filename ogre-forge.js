@@ -135,6 +135,8 @@ function preload() {
         this.load.image('staff', 'assets/staff.png')
         this.load.image('heart', 'assets/heart_broken.png')
 
+        this.load.audio('kaching', 'assets/sounds/Kaching.ogg')
+
         // From https://github.com/rexrainbow/phaser3-rex-notes/blob/master/docs/docs/shake-position.md
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
         this.load.plugin('rexshakepositionplugin', pluginUrl, true);
@@ -253,6 +255,10 @@ function targetForPosition(position) {
 var debugConsole = null;
 var anvil = null;
 var paused = true;
+var sounds = {
+    kaching: null,
+    bash: null
+}
 function create() {
     this.input.on('pointerup', function (pointer) {
         if (!game.scale.isFullscreen) {
@@ -290,6 +296,10 @@ function create() {
         }).on('complete', function () {});
 
         this._newWeapon(FIRST_WEAPON);
+
+        sounds.kaching = this.sound.add('kaching');
+        sounds.kaching.play();
+
     }
 
     var gameType = (parameters.singlePlayer) ? 'sp' : 'pp';
