@@ -294,6 +294,7 @@ function _newWeapon(type, initialPosition=1) {
     weapon.primary.position = initialPosition;
     var screenPosition = targetForPosition(initialPosition);
     weapon.primary.sprite = this.physics.add.image(screenPosition.x, screenPosition.y, type)
+    weapon.primary.sprite.setTint('#b7410e') // rust color
     weapon.primary.physics = this.physics;
     weapon.primary.alive = true;
     weapon.primary.claimed = false;
