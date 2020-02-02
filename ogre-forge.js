@@ -259,7 +259,7 @@ function create() {
             magnitude: 4,
         }).on('complete', function () {});
 
-        weapon = this._newWeapon(FIRST_WEAPON);
+        this._newWeapon(FIRST_WEAPON);
     }
 
     var gameType = (parameters.singlePlayer) ? 'sp' : 'pp';
