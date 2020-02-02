@@ -163,22 +163,24 @@ var weapon = {
         moveLeft: function() {
             if (this.sprite == null) { return; }
             this.position -= 1;
-            this.target = targetForPosition(this.position);
-            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
             if (this.position < 0) {
                 this.position = 0;
                 this.fallOff();
             }
+            this.target = targetForPosition(this.position);
+            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
+
         },
         moveRight: function() {
             if (this.sprite == null) { return; }
             this.position += 1;
-            this.target = targetForPosition(this.position);
-            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
             if (this.position > 2) {
                 this.position = 2;
                 this.fallOff();
             }
+            this.target = targetForPosition(this.position);
+            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
+
         },
         fallOff: function() {
             if (this.sprite == null) { return; }
