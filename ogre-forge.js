@@ -290,6 +290,12 @@ function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
         },
         isBroken: function() {
             return this.b0 < -1 || this.m0 < -1 || this.b1 < -1 || this.m1 < -1 || this.b2 < -1 || this.m2 < -1;
+        },
+        isREPAIRED: function() {
+            return this._isPartREPAIRED(this.b0) && this._isPartREPAIRED(this.m0) && this._isPartREPAIRED(this.b1) && this._isPartREPAIRED(this.m1) && this._isPartREPAIRED(this.b2) && this._isPartREPAIRED(this.m2)
+        },
+        _isPartREPAIRED: function(part) {
+            return part == 0 || part == -1;
         }
     }
 }
