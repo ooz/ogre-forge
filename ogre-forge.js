@@ -172,6 +172,7 @@ var weapon = {
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
 
+            playSound(sounds.kaching);
         },
         moveRight: function() {
             if (this.sprite == null) { return; }
@@ -183,6 +184,7 @@ var weapon = {
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
 
+            playSound(sounds.kaching);
         },
         fallOff: function() {
             if (this.sprite == null) { return; }
@@ -259,6 +261,10 @@ var sounds = {
     kaching: null,
     bash: null
 }
+//var lastSound = null;
+function playSound(sound) {
+    sound.play();
+}
 function create() {
     this.input.on('pointerup', function (pointer) {
         if (!game.scale.isFullscreen) {
@@ -298,7 +304,8 @@ function create() {
         this._newWeapon(FIRST_WEAPON);
 
         sounds.kaching = this.sound.add('kaching');
-        sounds.kaching.play();
+
+
 
     }
 
