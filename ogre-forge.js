@@ -135,6 +135,7 @@ function preload() {
         this.load.image('sword', 'assets/sword.png')
         this.load.image('staff', 'assets/staff.png')
         this.load.image('heart', 'assets/heart_broken.png')
+        this.load.image('heart_healed', 'assets/heart_healed.png')
 
         this.load.audio('kaching', ['assets/sounds/Kaching.ogg', 'assets/sounds/Kaching.mp3']);
         this.load.audio('stomp', ['assets/sounds/STOMP_RAY.ogg', 'assets/sounds/STOMP_RAY.mp3']);
@@ -217,7 +218,12 @@ var weapon = {
         },
         cashIn: function() {
             if (this.sprite == null) { return; }
-            this.sprite.setTint(0xffffff)
+            if (this.type == 'heart') {
+                this.sprite.loadTexture('heart_healed')
+            } else {
+                this.sprite.setTint(0xffffff)
+            }
+
             this.alive = false;
             this.target = {x: 300, y: -60}
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 2)
