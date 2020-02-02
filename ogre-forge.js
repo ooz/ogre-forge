@@ -206,6 +206,12 @@ var weapon = {
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 3)
         },
+        breakOff: function() {
+            if (this.sprite == null) { return; }
+
+            this.target = {x: 300, y: 360}
+            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 3)
+        },
         bash: function() {
             if (this.sprite == null) { return; }
 
@@ -213,6 +219,12 @@ var weapon = {
                 playSound(sounds.kling);
             } else {
                 playSound(sounds.klingPitch);
+            }
+
+            var modelKey = 'm' + this.position;
+            this.model.hit(modelKey);
+            if (this.model.isBroken()) {
+                this.breakOff();
             }
         },
         magic: function() {
@@ -263,12 +275,22 @@ function _newWeapon(type) {
 // -1: breaking/fly off it hit
 function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
     return {
-        leftB: leftB,
-        leftM: leftM,
-        middleB: middleB,
-        middleM: middleM,
-        rightB: rightB,
-        rightM: rightM
+        b0: leftB,
+        m0: leftM,
+        b1: middleB,
+        m1: middleM,
+        b2: rightB,
+        m2: rightM,
+        hit: function(key) {
+            if (key != 'b0' && key != 'm0' && key != 'b1' && key != 'm1' && key != 'b2' && key != 'm2') { return; }
+            var value = this[key];
+            if (value != 0) { // 0 .. no effect, no need to act
+                this[key] = value - 1;
+            }
+        },
+        isBroken: function() {
+            return this.b0 < -1 || this.m0 < -1 || this.b1 < -1 || this.m1 < -1 || this.b2 < -1 || this.m2 < -1;
+        }
     }
 }
 function targetForPosition(position) {
