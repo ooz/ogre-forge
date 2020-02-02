@@ -301,6 +301,7 @@ function _newWeapon(type, initialPosition=1) {
     weapon.primary.position = initialPosition;
     var screenPosition = targetForPosition(initialPosition);
     weapon.primary.sprite = this.physics.add.image(screenPosition.x, screenPosition.y, type)
+    weapon.primary.sprite.setDepth(10);
     if (type != 'heart') weapon.primary.sprite.setTint(0xb7410e); // rust color
     weapon.primary.physics = this.physics;
     weapon.primary.alive = true;
@@ -442,10 +443,12 @@ function create() {
 
         this._newWeapon(FIRST_WEAPON);
 
-        effects.bash = this.add.image(300, 250, 'bash');
+        effects.bash = this.add.image(300, 265, 'bash');
         effects.bash.alpha = 0.0;
+        effects.bash.setDepth(99);
         effects.magic = this.add.image(300, 250, 'magic');
         effects.magic.alpha = 0.0;
+        effects.magic.setDepth(99);
 
         sounds.kaching = this.sound.add('kaching');
         sounds.stomp = this.sound.add('stomp');
