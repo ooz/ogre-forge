@@ -426,7 +426,12 @@ function update(time, delta) {
     if (_isValidPlayer() && conn != null) {
         if (gyroMagnitude >= 23.0) {
             //debug("Gyro: " + gyroMagnitude);
-            conn.send(players.me.number + '_bash');
+            if (parameters.singlePlayer) {
+                conn.send('p2_bash'); // For single player we want the smartphone shake to always be a physical hit
+            } else {
+                conn.send(players.me.number + '_bash');
+            }
+
             gyroMagnitude = 0.0;
         }
     } else if (_isGameScreen()) {
