@@ -147,6 +147,79 @@ function preload() {
     this.load.image('p2_head', 'assets/ogre2.png')
 }
 
+var weapon = {
+    primary: {
+        sprite: null,
+        physics: null,
+        type: '',
+        position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
+        model: {},
+        gain: 0,
+        exists: function() {
+            return this.sprite != null;
+        },
+        moveLeft: function() {
+            if (this.sprite == null) { return; }
+            this.position -= 1;
+            this.physics.moveTo(this.sprite, 150, 270)
+            if (this.position < 0) {
+                this.fallOff();
+            }
+        },
+        moveRight: function() {
+            if (this.sprite == null) { return; }
+            this.position += 1;
+            this.physics.moveTo(this.sprite, 450, 270)
+            if (this.position > 2) {
+                this.fallOff();
+            }
+        },
+        fallOff: function() {
+            if (this.sprite == null) { return; }
+        },
+        bash: function() {
+            if (this.sprite == null) { return; }
+        },
+        magic: function() {
+            if (this.sprite == null) { return; }
+        }
+    },
+    queue: null,
+    fadeoutQueue: null
+};
+function _newWeapon(type) {
+    weapon.primary.type = type;
+    weapon.primary.sprite = this.physics.add.image(300, 270, type)
+    weapon.primary.physics = this.physics;
+    if (type == 'hammer') {
+        weapon.primary.model = newWeaponModel(0, 0, 0, 0, 2, 0);
+        weapon.primary.gain = 100;
+    } else if (type == 'sword') {
+        weapon.primary.model = newWeaponModel(-1, 0, 1, 0, 1, 0);
+        weapon.primary.gain = 150;
+    } else if (type == 'staff') {
+        weapon.primary.model = newWeaponModel(1, 0, 1, 0, -1, 2);
+        weapon.primary.gain = 200;
+    } else if (type == 'heart') {
+        weapon.primary.model = newWeaponModel(0, 0, -1, 1, 0, 0);
+        weapon.primary.gain = 1000;
+    }
+}
+// left, middle, right; B .. Bash, M .. Magic
+// 1 or 2: respective number of hits needed
+// 0: no effect if hit
+// -1: breaking/fly off it hit
+function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
+    return {
+        leftB: leftB,
+        leftM: leftM,
+        middleB: middleB,
+        middleM: middleM,
+        rightB: rightB,
+        rightM: rightM
+    }
+}
+
 var debugConsole = null;
 var anvil = null;
 var paused = true;
@@ -294,79 +367,6 @@ function _updateGold(time, delta) {
     if (time - gameState.lastPrintTimeInMs >= 3000) {
         debug("Gold: " + gameState.gold.toFixed(0))
         gameState.lastPrintTimeInMs = time;
-    }
-}
-
-var weapon = {
-    primary: {
-        sprite: null,
-        physics: null,
-        type: '',
-        position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
-        model: {},
-        gain: 0,
-        exists: function() {
-            return this.sprite != null;
-        },
-        moveLeft: function() {
-            if (this.sprite == null) { return; }
-            this.position -= 1;
-            this.physics.moveTo(this.sprite, 150, 270)
-            if (this.position < 0) {
-                this.fallOff();
-            }
-        },
-        moveRight: function() {
-            if (this.sprite == null) { return; }
-            this.position += 1;
-            this.physics.moveTo(this.sprite, 450, 270)
-            if (this.position > 2) {
-                this.fallOff();
-            }
-        },
-        fallOff: function() {
-            if (this.sprite == null) { return; }
-        },
-        bash: function() {
-            if (this.sprite == null) { return; }
-        },
-        magic: function() {
-            if (this.sprite == null) { return; }
-        }
-    },
-    queue: null,
-    fadeoutQueue: null
-};
-function _newWeapon(type) {
-    weapon.primary.type = type;
-    weapon.primary.sprite = this.physics.add.image(300, 270, type)
-    weapon.primary.physics = this.physics;
-    if (type == 'hammer') {
-        weapon.primary.model = newWeaponModel(0, 0, 0, 0, 2, 0);
-        weapon.primary.gain = 100;
-    } else if (type == 'sword') {
-        weapon.primary.model = newWeaponModel(-1, 0, 1, 0, 1, 0);
-        weapon.primary.gain = 150;
-    } else if (type == 'staff') {
-        weapon.primary.model = newWeaponModel(1, 0, 1, 0, -1, 2);
-        weapon.primary.gain = 200;
-    } else if (type == 'heart') {
-        weapon.primary.model = newWeaponModel(0, 0, -1, 1, 0, 0);
-        weapon.primary.gain = 1000;
-    }
-}
-// left, middle, right; B .. Bash, M .. Magic
-// 1 or 2: respective number of hits needed
-// 0: no effect if hit
-// -1: breaking/fly off it hit
-function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
-    return {
-        leftB: leftB,
-        leftM: leftM,
-        middleB: middleB,
-        middleM: middleM,
-        rightB: rightB,
-        rightM: rightM
     }
 }
 // ## GAME CALLBACKS END
