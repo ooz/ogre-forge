@@ -304,7 +304,7 @@ var weapon = {
 };
 function _newWeapon(type) {
     weapon.primary.type = type;
-    weapon.primary.sprite = this.add.sprite(300, 200, type)
+    weapon.primary.sprite = this.add.sprite(300, 270, type)
     if (type == 'hammer') {
         weapon.primary.model = newWeaponModel(0, 0, 0, 0, 2, 0);
         weapon.primary.gain = 100;
