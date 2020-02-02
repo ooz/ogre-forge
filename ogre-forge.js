@@ -193,7 +193,7 @@ var weapon = {
             if (this.sprite == null) { return; }
             if (this.sprite.body.speed > 0) {
                 var distance = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
-                if (distance < 10) {
+                if (distance < 8) {
                     this.sprite.body.reset(this.target.x, this.target.y);
                 }
             }
@@ -238,9 +238,9 @@ function targetForPosition(position) {
     var x = 300;
     var y = 270;
     if (position == 0) {
-        x = 150;
+        x = 180;
     } else if (position == 2) {
-        x = 450;
+        x = 420;
     }
     return {
         x: x,
