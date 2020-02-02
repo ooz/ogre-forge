@@ -170,6 +170,7 @@ var weapon = {
         position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
         target: {x: 300, y: 270},
         model: {},
+        loss: 0,
         gain: 0,
         exists: function() {
             return this.sprite != null;
@@ -268,11 +269,15 @@ var weapon = {
                     if (this.sprite.y > 330) { // Sprite is offscreen, fell off --> KrachBumm sound, destroy and spawn new weapon
                         debug("SPRITE OFFSCREEN")
                         playSound(sounds.krachBumm);
+                        gameState.gold -= this.loss;
+                        debug("-" + this.loss + " Gold");
+                        _newWeapon('staff');
                     } else if (this.sprite.y < -30) { // Sprite lifted offscreen, successfully repaired --> Kaching sound, destroy, get gold and spawn new weapon
                         debug("REPAIRED")
                         playSound(sounds.kaching);
                         gameState.gold += this.gain;
                         debug("+" + this.gain + " Gold");
+                        _newWeapon('sword');
                     }
                 }
             }
@@ -283,18 +288,22 @@ var weapon = {
 };
 function _newWeapon(type) {
     weapon.primary.type = type;
+    if (weapon.primary.sprite != null) weapon.primary.sprite.destroy();
     weapon.primary.sprite = this.physics.add.image(300, 270, type)
     weapon.primary.physics = this.physics;
     weapon.primary.alive = true;
     if (type == 'hammer') {
         weapon.primary.model = newWeaponModel(0, 0, 0, 0, 2, 0);
         weapon.primary.gain = 100;
+        weapon.primary.loss = 30;
     } else if (type == 'sword') {
         weapon.primary.model = newWeaponModel(-1, 0, 1, 0, 1, 0);
         weapon.primary.gain = 150;
+        weapon.primary.loss = 70;
     } else if (type == 'staff') {
         weapon.primary.model = newWeaponModel(1, 0, 1, 0, -1, 2);
         weapon.primary.gain = 200;
+        weapon.primary.loss = 100;
     } else if (type == 'heart') {
         weapon.primary.model = newWeaponModel(0, 0, -1, 1, 0, 0);
         weapon.primary.gain = 1000;
