@@ -173,10 +173,9 @@ var weapon = {
             return this.sprite != null;
         },
         moveLeft: function() {
-            if (this.sprite == null) { return; }
+            if (this.sprite == null || !this.isOnAnvil()) { return; }
             this.position -= 1;
             if (this.position < 0) {
-                this.position = 0;
                 this.fallOff();
             }
             this.target = targetForPosition(this.position);
@@ -184,12 +183,14 @@ var weapon = {
 
             playSound(sounds.stomp);
         },
+        isOnAnvil: function() {
+            return this.position >= 0 && this.position <= 2;
+        },
         moveRight: function() {
-            if (this.sprite == null) { return; }
+            if (this.sprite == null || !this.isOnAnvil()) { return; }
             this.position += 1;
             if (this.position > 2) {
-                this.position = 2;
-                this.fallOff();
+                this.fallOff(position);
             }
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
@@ -198,6 +199,9 @@ var weapon = {
         },
         fallOff: function() {
             if (this.sprite == null) { return; }
+
+            this.target = targetForPosition(this.position);
+            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
         },
         bash: function() {
             if (this.sprite == null) { return; }
@@ -217,8 +221,13 @@ var weapon = {
             if (this.sprite == null) { return; }
             if (this.sprite.body.speed > 0) {
                 var distance = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
-                if (distance < 8) {
+
+                if (distance < 8) { // Reached target
                     this.sprite.body.reset(this.target.x, this.target.y);
+
+                    if (this.sprite.y > 330) { // Sprite is offscreen, fell off --> KrachBumm sound, destroy and spawn new weapon
+                        debug("SPRITE OFFSCREEN")
+                    }
                 }
             }
         }
@@ -259,12 +268,19 @@ function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
     }
 }
 function targetForPosition(position) {
+    // center, default
     var x = 300;
     var y = 270;
     if (position == 0) {
         x = 220;
     } else if (position == 2) {
         x = 380;
+    } else if (position < 0) {
+        x = 100;
+        y = 350;
+    } else if (position > 2) {
+        x = 500;
+        y = 350;
     }
     return {
         x: x,
