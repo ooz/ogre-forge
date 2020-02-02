@@ -139,7 +139,7 @@ function preload() {
         this.load.audio('kaching', ['assets/sounds/Kaching.ogg', 'assets/sounds/Kaching.mp3']);
         this.load.audio('stomp', ['assets/sounds/STOMP_RAY.ogg', 'assets/sounds/STOMP_RAY.mp3']);
         this.load.audio('kling', ['assets/sounds/KLING.ogg', 'assets/sounds/KLING.mp3']);
-        this.load.audio('kling_pitch', ['assets/sounds/KLING.ogg', 'assets/sounds/KLING.mp3']);
+        this.load.audio('kling_pitch', ['assets/sounds/KLING_PITCH.ogg', 'assets/sounds/KLING_PITCH.mp3']);
         this.load.audio('woosh', ['assets/sounds/WOOSH_RAY.ogg', 'assets/sounds/WOOSH_RAY.mp3']);
 
         // From https://github.com/rexrainbow/phaser3-rex-notes/blob/master/docs/docs/shake-position.md
@@ -531,9 +531,7 @@ function get(id) {
 }
 
 function random(min, max) {
-    var value = Phaser.Math.RND.between(min, max);
-    debug("Random: " + value);
-    return value;
+    return Phaser.Math.RND.between(min, max);
 }
 
 var debugLines = [];
