@@ -501,10 +501,17 @@ function _initUI() {
             });
         } else {
             var graphic = 'magic';
-            if (player.me.number == 'p2') {
+            if (players.me.number == 'p2') {
                 graphic = 'bash'
             }
-            this.add.image(WIDTH / 2, 100, graphic);
+            var basher = this.add.sprite(WIDTH / 2, 100, graphic).setInteractive();
+            basher.on('pointerup', function () {
+                if (conn != null && !paused) {
+                    if (_isValidPlayer()) {
+                        conn.send(players.me.number + '_bash');
+                    }
+                }
+            });
             this.add.image(WIDTH / 2, 500, players.me.number + '_head');
         }
 
