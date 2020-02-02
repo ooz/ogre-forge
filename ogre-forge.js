@@ -622,13 +622,14 @@ function update(time, delta) {
     }
 }
 function _updateGold(time, delta) {
+    if (goldUI != null) {
+        goldUI.setText(gameState.gold.toFixed(0))
+    }
     if (paused) return;
 
     gameState.gold -= (GOLD_LOSS_PER_SEC / 1000.0) * delta;
     gameState.gold = Math.max(gameState.gold, 0);
-    if (goldUI != null) {
-        goldUI.setText(gameState.gold.toFixed(0))
-    }
+
     /*
     if (time - gameState.lastPrintTimeInMs >= 3000) {
         debug("Gold: " + gameState.gold.toFixed(0))
