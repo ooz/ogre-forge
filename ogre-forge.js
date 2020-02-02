@@ -137,6 +137,7 @@ function preload() {
         this.load.image('heart', 'assets/heart_broken.png')
 
         this.load.audio('kaching', ['assets/sounds/Kaching.ogg', 'assets/sounds/Kaching.mp3']);
+        this.load.audio('stomp', ['assets/sounds/STOMP_RAY.ogg', 'assets/sounds/STOMP_RAY.mp3']);
         this.load.audio('kling', ['assets/sounds/KLING.ogg', 'assets/sounds/KLING.mp3']);
         this.load.audio('kling_pitch', ['assets/sounds/KLING.ogg', 'assets/sounds/KLING.mp3']);
         this.load.audio('woosh', ['assets/sounds/WOOSH_RAY.ogg', 'assets/sounds/WOOSH_RAY.mp3']);
@@ -180,7 +181,7 @@ var weapon = {
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
 
-            playSound(sounds.kaching);
+            playSound(sounds.stomp);
         },
         moveRight: function() {
             if (this.sprite == null) { return; }
@@ -192,7 +193,7 @@ var weapon = {
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
 
-            playSound(sounds.kaching);
+            playSound(sounds.stomp);
         },
         fallOff: function() {
             if (this.sprite == null) { return; }
@@ -275,6 +276,7 @@ var anvil = null;
 var paused = true;
 var sounds = {
     kaching: null,
+    stomp: null,
     kling: null,
     klingPitch: null,
     grunzgrunz: null,
@@ -323,6 +325,7 @@ function create() {
         this._newWeapon(FIRST_WEAPON);
 
         sounds.kaching = this.sound.add('kaching');
+        sounds.stomp = this.sound.add('stomp');
         sounds.kling = this.sound.add('kling');
         sounds.klingPitch = this.sound.add('kling_pitch');
         sounds.woosh = this.sound.add('woosh');
