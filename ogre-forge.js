@@ -136,6 +136,8 @@ function preload() {
         this.load.image('heart', 'assets/heart_broken.png')
 
         this.load.audio('kaching', ['assets/sounds/Kaching.ogg', 'assets/sounds/Kaching.mp3']);
+        this.load.audio('kling', ['assets/sounds/KLING.ogg', 'assets/sounds/KLING.mp3']);
+        this.load.audio('grunzgrunz', ['assets/sounds/GRUNZGRUNZ.ogg', 'assets/sounds/GRUNZGRUNZ.mp3']);
 
         // From https://github.com/rexrainbow/phaser3-rex-notes/blob/master/docs/docs/shake-position.md
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
@@ -191,6 +193,8 @@ var weapon = {
         },
         bash: function() {
             if (this.sprite == null) { return; }
+
+            playSound(sounds.kling);
         },
         magic: function() {
             if (this.sprite == null) { return; }
@@ -259,7 +263,8 @@ var anvil = null;
 var paused = true;
 var sounds = {
     kaching: null,
-    bash: null
+    kling: null,
+    grunzgrunz: null
 }
 //var lastSound = null;
 function playSound(sound) {
@@ -304,9 +309,7 @@ function create() {
         this._newWeapon(FIRST_WEAPON);
 
         sounds.kaching = this.sound.add('kaching');
-
-
-
+        sounds.kling = this.sound.add('kling');
     }
 
     var gameType = (parameters.singlePlayer) ? 'sp' : 'pp';
@@ -323,6 +326,8 @@ function _initUI() {
     if (button != null) return;
 
     if (_isValidPlayer()) {
+        sounds.grunzgrunz = this.sound.add('grunzgrunz');
+
         if (parameters.singlePlayer) {
             var button2 = this.add.sprite(WIDTH / 2, 500, 'p2_foot').setInteractive();
             button2.on('pointerup', function () {
@@ -352,6 +357,12 @@ function _initUI() {
             this.add.image(WIDTH / 2, 500, players.me.number + '_head');
         }
 
+        if (parameters.singlePlayer || players.me.number == 'p2') {
+            playSound(sounds.grunzgrunz);
+        } else if (players.me.number == 'p1') {
+            playSound(sounds.grunzgrunz);
+        }
+
         button = this.add.sprite(WIDTH / 2, HEIGHT / 2, players.me.number + '_foot').setInteractive();
         button.on('pointerup', function () {
             if (conn != null) {
@@ -366,7 +377,7 @@ function _initUI() {
             gyro.startTracking(_onGyro);
         }
 
-        this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#c2b280");
+        //this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#c2b280");
     }
 }
 
