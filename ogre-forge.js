@@ -126,6 +126,7 @@ if (!_isGameScreen()) {
 // ## GAME CALLBACKS
 function preload() {
     if (_isGameScreen()) {
+        // Screen / PC / game assets only
         this.load.image('anvil', 'assets/anvil.png')
         this.load.image('smithy_bg', 'assets/smithy_bg.png')
         this.load.image('ogre_body', 'assets/ogre_body_short.png')
@@ -137,16 +138,20 @@ function preload() {
 
         this.load.audio('kaching', ['assets/sounds/Kaching.ogg', 'assets/sounds/Kaching.mp3']);
         this.load.audio('kling', ['assets/sounds/KLING.ogg', 'assets/sounds/KLING.mp3']);
-        this.load.audio('grunzgrunz', ['assets/sounds/GRUNZGRUNZ.ogg', 'assets/sounds/GRUNZGRUNZ.mp3']);
+
 
         // From https://github.com/rexrainbow/phaser3-rex-notes/blob/master/docs/docs/shake-position.md
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
         this.load.plugin('rexshakepositionplugin', pluginUrl, true);
     } else {
+        // Controller / smartphone / client assets only
         this.load.image('p1_foot', 'assets/stomp_p1.png')
         this.load.image('p2_foot', 'assets/stomp_p2.png')
+
+        this.load.audio('grunzgrunz', ['assets/sounds/GRUNZGRUNZ.ogg', 'assets/sounds/GRUNZGRUNZ.mp3']);
     }
 
+    // Common assets
     this.load.image('p1_head', 'assets/ogre1.png')
     this.load.image('p2_head', 'assets/ogre2.png')
 }
