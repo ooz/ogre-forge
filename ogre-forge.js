@@ -147,12 +147,14 @@ function preload() {
     this.load.image('p2_head', 'assets/ogre2.png')
 }
 
+const SPEED = 300;
 var weapon = {
     primary: {
         sprite: null,
         physics: null,
         type: '',
         position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
+        target: {x: 300, y: 270},
         model: {},
         gain: 0,
         exists: function() {
@@ -161,7 +163,8 @@ var weapon = {
         moveLeft: function() {
             if (this.sprite == null) { return; }
             this.position -= 1;
-            this.physics.moveTo(this.sprite, 150, 270)
+            this.target = targetForPosition(this.position);
+            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
             if (this.position < 0) {
                 this.fallOff();
             }
@@ -169,7 +172,8 @@ var weapon = {
         moveRight: function() {
             if (this.sprite == null) { return; }
             this.position += 1;
-            this.physics.moveTo(this.sprite, 450, 270)
+            this.target = targetForPosition(this.position);
+            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
             if (this.position > 2) {
                 this.fallOff();
             }
@@ -182,6 +186,15 @@ var weapon = {
         },
         magic: function() {
             if (this.sprite == null) { return; }
+        },
+        update: function(time, delta) {
+            if (this.sprite == null) { return; }
+            if (this.sprite.body.speed > 0) {
+                var distance = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
+                if (distance < 10) {
+                    this.sprite.body.reset(this.target.x, this.target.y);
+                }
+            }
         }
     },
     queue: null,
@@ -217,6 +230,19 @@ function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
         middleM: middleM,
         rightB: rightB,
         rightM: rightM
+    }
+}
+function targetForPosition(position) {
+    var x = 300;
+    var y = 270;
+    if (position == 0) {
+        x = 150;
+    } else if (position == 2) {
+        x = 450;
+    }
+    return {
+        x: x,
+        y: y,
     }
 }
 
@@ -377,6 +403,8 @@ function update(time, delta) {
             if (anvil != null) anvil.shake.shake();
             debug("Paused: " + paused)
         }
+
+        weapon.primary.update(time, delta);
     }
 }
 function _updateGold(time, delta) {
