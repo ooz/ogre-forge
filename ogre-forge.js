@@ -138,7 +138,8 @@ function preload() {
 
         this.load.audio('kaching', ['assets/sounds/Kaching.ogg', 'assets/sounds/Kaching.mp3']);
         this.load.audio('kling', ['assets/sounds/KLING.ogg', 'assets/sounds/KLING.mp3']);
-
+        this.load.audio('kling_pitch', ['assets/sounds/KLING.ogg', 'assets/sounds/KLING.mp3']);
+        this.load.audio('woosh', ['assets/sounds/WOOSH_RAY.ogg', 'assets/sounds/WOOSH_RAY.mp3']);
 
         // From https://github.com/rexrainbow/phaser3-rex-notes/blob/master/docs/docs/shake-position.md
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
@@ -199,10 +200,16 @@ var weapon = {
         bash: function() {
             if (this.sprite == null) { return; }
 
-            playSound(sounds.kling);
+            if (random(0, 1)) {
+                playSound(sounds.kling);
+            } else {
+                playSound(sounds.klingPitch);
+            }
         },
         magic: function() {
             if (this.sprite == null) { return; }
+
+            playSound(sounds.woosh);
         },
         update: function(time, delta) {
             if (this.sprite == null) { return; }
@@ -269,7 +276,9 @@ var paused = true;
 var sounds = {
     kaching: null,
     kling: null,
-    grunzgrunz: null
+    klingPitch: null,
+    grunzgrunz: null,
+    woosh: null
 }
 //var lastSound = null;
 function playSound(sound) {
@@ -315,6 +324,8 @@ function create() {
 
         sounds.kaching = this.sound.add('kaching');
         sounds.kling = this.sound.add('kling');
+        sounds.klingPitch = this.sound.add('kling_pitch');
+        sounds.woosh = this.sound.add('woosh');
     }
 
     var gameType = (parameters.singlePlayer) ? 'sp' : 'pp';
@@ -499,6 +510,10 @@ function createGameId() {
 
 function get(id) {
     return document.getElementById(id)
+}
+
+function random(min, max) {
+    return Phaser.Math.RND.between(min, max);
 }
 
 var debugLines = [];
