@@ -150,6 +150,7 @@ function preload() {
         this.load.image('p1_foot', 'assets/stomp_p1.png')
         this.load.image('p2_foot', 'assets/stomp_p2.png')
 
+        this.load.audio('grunz', ['assets/sounds/GRUNZ.ogg', 'assets/sounds/GRUNZ.mp3']);
         this.load.audio('grunzgrunz', ['assets/sounds/GRUNZGRUNZ.ogg', 'assets/sounds/GRUNZGRUNZ.mp3']);
     }
 
@@ -279,6 +280,7 @@ var sounds = {
     stomp: null,
     kling: null,
     klingPitch: null,
+    grunz: null,
     grunzgrunz: null,
     woosh: null
 }
@@ -345,6 +347,7 @@ function _initUI() {
     if (button != null) return;
 
     if (_isValidPlayer()) {
+        sounds.grunz = this.sound.add('grunz');
         sounds.grunzgrunz = this.sound.add('grunzgrunz');
 
         if (parameters.singlePlayer) {
@@ -376,9 +379,12 @@ function _initUI() {
             this.add.image(WIDTH / 2, 500, players.me.number + '_head');
         }
 
-        if (parameters.singlePlayer || players.me.number == 'p2') {
+        if (parameters.singlePlayer) {
+            playSound(sounds.grunz);
             playSound(sounds.grunzgrunz);
         } else if (players.me.number == 'p1') {
+            playSound(sounds.grunz);
+        } else if (players.me.number == 'p2') {
             playSound(sounds.grunzgrunz);
         }
 
