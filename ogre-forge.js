@@ -285,8 +285,12 @@ var sounds = {
     woosh: null
 }
 //var lastSound = null;
-function playSound(sound) {
-    sound.play();
+function playSound(sound, delay=0) {
+    if (delay == 0) {
+        sound.play();
+    } else {
+        sound.play({delay: delay});
+    }
 }
 function create() {
     this.input.on('pointerup', function (pointer) {
@@ -381,7 +385,7 @@ function _initUI() {
 
         if (parameters.singlePlayer) {
             playSound(sounds.grunz);
-            playSound(sounds.grunzgrunz);
+            playSound(sounds.grunzgrunz, 1);
         } else if (players.me.number == 'p1') {
             playSound(sounds.grunz);
         } else if (players.me.number == 'p2') {
@@ -527,7 +531,9 @@ function get(id) {
 }
 
 function random(min, max) {
-    return Phaser.Math.RND.between(min, max);
+    var value = Phaser.Math.RND.between(min, max);
+    debug("Random: " + value);
+    return value;
 }
 
 var debugLines = [];
