@@ -270,6 +270,7 @@ var weapon = {
                         debug("REPAIRED")
                         playSound(sounds.kaching);
                         gameState.gold += this.gain;
+                        debug("+" + this.gain + " Gold");
                     }
                 }
             }
