@@ -132,9 +132,6 @@ function preload() {
         this.load.image('smithy_bg', 'assets/smithy_bg.png')
         this.load.image('ogre_body', 'assets/ogre_body_short_bb.png')
 
-        this.load.image('bash', 'assets/bash.png')
-        this.load.image('magic', 'assets/magic.png')
-
         this.load.image('hammer', 'assets/hammer.png')
         this.load.image('sword', 'assets/sword.png')
         this.load.image('staff', 'assets/staff.png')
@@ -163,6 +160,8 @@ function preload() {
     // Common assets
     this.load.image('p1_head', 'assets/ogre1.png')
     this.load.image('p2_head', 'assets/ogre2.png')
+    this.load.image('bash', 'assets/bash.png')
+    this.load.image('magic', 'assets/magic.png')
 }
 
 const SPEED = 300;
@@ -484,7 +483,7 @@ function _initUI() {
                     }
                 }
             });
-            var bashButton1 = this.add.sprite(75, 100, 'p1_head').setInteractive();
+            var bashButton1 = this.add.sprite(75, 100, 'magic').setInteractive();
             bashButton1.on('pointerup', function () {
                 if (conn != null && !paused) {
                     if (_isValidPlayer()) {
@@ -492,7 +491,7 @@ function _initUI() {
                     }
                 }
             });
-            var bashButton2 = this.add.sprite(225, 100, 'p2_head').setInteractive();
+            var bashButton2 = this.add.sprite(225, 100, 'bash').setInteractive();
             bashButton2.on('pointerup', function () {
                 if (conn != null && !paused) {
                     if (_isValidPlayer()) {
@@ -501,6 +500,11 @@ function _initUI() {
                 }
             });
         } else {
+            var graphic = 'magic';
+            if (player.me.number == 'p2') {
+                graphic = 'bash'
+            }
+            this.add.image(WIDTH / 2, 100, graphic);
             this.add.image(WIDTH / 2, 500, players.me.number + '_head');
         }
 
