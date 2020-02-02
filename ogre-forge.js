@@ -630,12 +630,11 @@ function _updateGold(time, delta) {
     gameState.gold -= (GOLD_LOSS_PER_SEC / 1000.0) * delta;
     gameState.gold = Math.max(gameState.gold, 0);
 
-    /*
-    if (time - gameState.lastPrintTimeInMs >= 3000) {
-        debug("Gold: " + gameState.gold.toFixed(0))
+    if (time - gameState.lastPrintTimeInMs >= 2000) {
+        //debug("Gold: " + gameState.gold.toFixed(0))
+        debug(""); // debug fade-out
         gameState.lastPrintTimeInMs = time;
     }
-    */
 }
 function _updateEffects(time, delta) {
     if (effects.bash == null || effects.magic == null) return;
@@ -699,7 +698,7 @@ function random(min, max) {
 
 var debugLines = [];
 function debug(text) {
-    console.log(text);
+    if (text !== "") console.log(text);
     debugLines.push(text);
     while (debugLines.length > 5) {
         debugLines.shift()
