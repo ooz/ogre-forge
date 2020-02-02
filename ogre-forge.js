@@ -297,7 +297,7 @@ function _newWeapon(type, initialPosition=1) {
     weapon.primary.physics = this.physics;
     weapon.primary.alive = true;
     weapon.primary.claimed = false;
-    var flip = (random(0, 1)) ? true : false;
+    var flip = (random(0, 1) === 0) ? true : false;
     if (flip) {
         weapon.primary.sprite.angle = 180;
     }
