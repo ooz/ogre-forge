@@ -380,6 +380,7 @@ function targetForPosition(position) {
 }
 
 var debugConsole = null;
+var goldUI = null;
 var anvil = null;
 var paused = true;
 var sounds = {
@@ -455,6 +456,8 @@ function create() {
         sounds.klingPitch = this.sound.add('kling_pitch');
         sounds.woosh = this.sound.add('woosh');
         sounds.krachBumm = this.sound.add('krach_bumm');
+
+        goldUI = this.add.text(300, 10, '', { font: '16px Courier', fill: '#ffff00' });
     }
 
     var gameType = (parameters.singlePlayer) ? 'sp' : 'pp';
@@ -462,7 +465,7 @@ function create() {
     // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 
-    debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#ffff00' });
+    debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
 }
 
 var button = null;
@@ -623,10 +626,15 @@ function _updateGold(time, delta) {
 
     gameState.gold -= (GOLD_LOSS_PER_SEC / 1000.0) * delta;
     gameState.gold = Math.max(gameState.gold, 0);
+    if (goldUI != null) {
+        goldUI.setText(gameState.gold.toFixed(0))
+    }
+    /*
     if (time - gameState.lastPrintTimeInMs >= 3000) {
         debug("Gold: " + gameState.gold.toFixed(0))
         gameState.lastPrintTimeInMs = time;
     }
+    */
 }
 function _updateEffects(time, delta) {
     if (effects.bash == null || effects.magic == null) return;
