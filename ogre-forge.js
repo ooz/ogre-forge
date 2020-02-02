@@ -135,7 +135,7 @@ function preload() {
         this.load.image('staff', 'assets/staff.png')
         this.load.image('heart', 'assets/heart_broken.png')
 
-        this.load.audio('kaching', 'assets/sounds/Kaching.ogg')
+        this.load.audio('kaching', ['assets/sounds/Kaching.ogg', 'assets/sounds/Kaching.mp3']);
 
         // From https://github.com/rexrainbow/phaser3-rex-notes/blob/master/docs/docs/shake-position.md
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
