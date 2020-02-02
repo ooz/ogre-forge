@@ -10,6 +10,9 @@ p1_<action>       .. player 1 action command
 p2_<action>       .. player 2 action command
 */
 
+const WEAPON_TYPES = ['hammer', 'sword', 'staff', 'heart']
+const FIRST_WEAPON = 'hammer'
+
 var parameters = getParameters();
 
 var WIDTH = (_isGameScreen()) ? 600 : 300;
@@ -33,7 +36,8 @@ var config = {
         create: create,
         update: update,
         extend: {
-            _initUI: _initUI
+            _initUI: _initUI,
+            _newWeapon: _newWeapon
         }
     },
     backgroundColor: '#c2b280'
@@ -122,6 +126,11 @@ function preload() {
         this.load.image('smithy_bg', 'assets/smithy_bg.png')
         this.load.image('ogre_body', 'assets/ogre_body_short.png')
 
+        this.load.image('hammer', 'assets/hammer.png')
+        this.load.image('sword', 'assets/sword.png')
+        this.load.image('staff', 'assets/staff.png')
+        this.load.image('heart', 'assets/heart_broken.png')
+
         // From https://github.com/rexrainbow/phaser3-rex-notes/blob/master/docs/docs/shake-position.md
         var pluginUrl = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js';
         this.load.plugin('rexshakepositionplugin', pluginUrl, true);
@@ -172,6 +181,8 @@ function create() {
             duration: 400,
             magnitude: 4,
         }).on('complete', function () {});
+
+        weapon = this._newWeapon(FIRST_WEAPON);
     }
 
     var gameType = (parameters.singlePlayer) ? 'sp' : 'pp';
@@ -277,6 +288,49 @@ function _updateGold(time, delta) {
     if (time - gameState.lastPrintTimeInMs >= 3000) {
         debug("Gold: " + gameState.gold.toFixed(0))
         gameState.lastPrintTimeInMs = time;
+    }
+}
+
+var weapon = {
+    primary: {
+        sprite: null,
+        type: '',
+        position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
+        model: {},
+        gain: 0
+    },
+    queue: null,
+    fadeoutQueue: null
+};
+function _newWeapon(type) {
+    weapon.primary.type = type;
+    weapon.primary.sprite = this.add.sprite(300, 200, type)
+    if (type == 'hammer') {
+        weapon.primary.model = newWeaponModel(0, 0, 0, 0, 2, 0);
+        weapon.primary.gain = 100;
+    } else if (type == 'sword') {
+        weapon.primary.model = newWeaponModel(-1, 0, 1, 0, 1, 0);
+        weapon.primary.gain = 150;
+    } else if (type == 'staff') {
+        weapon.primary.model = newWeaponModel(1, 0, 1, 0, -1, 2);
+        weapon.primary.gain = 200;
+    } else if (type == 'heart') {
+        weapon.primary.model = newWeaponModel(0, 0, -1, 1, 0, 0);
+        weapon.primary.gain = 1000;
+    }
+}
+// left, middle, right; B .. Bash, M .. Magic
+// 1 or 2: respective number of hits needed
+// 0: no effect if hit
+// -1: breaking/fly off it hit
+function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
+    return {
+        leftB: leftB,
+        leftM: leftM,
+        middleB: middleB,
+        middleM: middleM,
+        rightB: rightB,
+        rightM: rightM
     }
 }
 // ## GAME CALLBACKS END
