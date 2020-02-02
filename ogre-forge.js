@@ -276,13 +276,11 @@ var weapon = {
                     this.sprite.body.reset(this.target.x, this.target.y);
 
                     if (this.sprite.y > 330) { // Sprite is offscreen, fell off --> KrachBumm sound, destroy and spawn new weapon
-                        debug("SPRITE OFFSCREEN")
                         playSound(sounds.krachBumm);
                         gameState.gold -= this.loss;
                         debug("-" + this.loss + " Gold");
                         this.claimed = true;
                     } else if (this.sprite.y < -30) { // Sprite lifted offscreen, successfully repaired --> Kaching sound, destroy, get gold and spawn new weapon
-                        debug("REPAIRED")
                         playSound(sounds.kaching);
                         gameState.gold += this.gain;
                         debug("+" + this.gain + " Gold");
@@ -346,7 +344,7 @@ function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
             if (value != 0) { // 0 .. no effect, no need to act
                 this[key] = value - 1;
             }
-            debug("Model " + this.b0 + " " + this.m0 + " " + this.b1 + " " + this.m1 + " " + this.b2 + " " + this.m2 + " ")
+            //debug("Model " + this.b0 + " " + this.m0 + " " + this.b1 + " " + this.m1 + " " + this.b2 + " " + this.m2 + " ")
         },
         isBroken: function() {
             return this.b0 < -1 || this.m0 < -1 || this.b1 < -1 || this.m1 < -1 || this.b2 < -1 || this.m2 < -1;
@@ -566,7 +564,7 @@ function update(time, delta) {
         // P1 input
         if (players.p1.commands.length > 0) {
             var cmd = players.p1.commands.shift();
-            debug("P1: " + cmd);
+            //debug("P1: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
                 weapon.primary.magic();
@@ -576,12 +574,11 @@ function update(time, delta) {
             if (players.body != null && cmd == 'stomp') players.body.shake.shake();
             if (players.p1.head != null && cmd == 'bash') players.p1.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
-            debug("Paused: " + paused)
         }
         // P2 input
         if (players.p2.commands.length > 0) {
             var cmd = players.p2.commands.shift();
-            debug("P2: " + cmd);
+            //debug("P2: " + cmd);
             if (cmd == 'bash') {
                 gameState.gold += 10;
                 weapon.primary.bash();
@@ -591,7 +588,6 @@ function update(time, delta) {
             if (players.body != null && cmd == 'stomp') players.body.shake.shake();
             if (players.p2.head != null && cmd == 'bash') players.p2.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
-            debug("Paused: " + paused)
         }
 
         weapon.primary.update(time, delta);
