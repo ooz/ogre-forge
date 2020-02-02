@@ -227,7 +227,7 @@ var weapon = {
                 playSound(sounds.klingPitch);
             }
 
-            var modelKey = 'b' + this.position;
+            var modelKey = `b${this.position}`;
             this._hit(modelKey);
         },
         magic: function() {
@@ -235,7 +235,7 @@ var weapon = {
 
             playSound(sounds.woosh);
 
-            var modelKey = 'm' + this.position;
+            var modelKey = `m${this.position}`;
             this._hit(modelKey);
         },
         _hit: function(modelKey) {
@@ -305,6 +305,7 @@ function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
             if (value != 0) { // 0 .. no effect, no need to act
                 this[key] = value - 1;
             }
+            debug("Model " + this.b0 + " " + this.m0 + " " + this.b1 + " " + this.m1 + " " + this.b2 + " " + this.m2 + " ")
         },
         isBroken: function() {
             return this.b0 < -1 || this.m0 < -1 || this.b1 < -1 || this.m1 < -1 || this.b2 < -1 || this.m2 < -1;
