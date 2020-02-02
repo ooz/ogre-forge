@@ -220,7 +220,7 @@ var weapon = {
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 2)
         },
         bash: function() {
-            if (this.sprite == null || !this.alive) { return; }
+            if (this.sprite == null) { return; }
 
             if (random(1, 2) == 1) {
                 playSound(sounds.kling);
@@ -232,7 +232,7 @@ var weapon = {
             this._hit(modelKey);
         },
         magic: function() {
-            if (this.sprite == null || !this.alive) { return; }
+            if (this.sprite == null) { return; }
 
             playSound(sounds.woosh);
 
@@ -248,6 +248,7 @@ var weapon = {
             return pos;
         },
         _hit: function(modelKey) {
+            if (!this.alive) { return; }
             this.model.hit(modelKey);
             if (this.model.isREPAIRED()) {
                 this.cashIn();
