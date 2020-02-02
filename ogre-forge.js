@@ -1,7 +1,8 @@
 /*
 ## Ogre Protocol
 
-pp_<gameId> .. player game prefix
+pp_<gameId> .. multiplayer game prefix
+sp_<gameId> .. singleplayer game prefix
 
 hi_<playerId>     .. handshake/player sign-up
 pl_<playerNumber> .. player number assignment by game (1, 2 .. players, 0 .. reject)
@@ -70,15 +71,15 @@ if (_isGameScreen()) {
                 players.p1.id = playerId;
                 players.p1.conn = conn;
                 conn.send('pl_1');
-                debug('Welcome left head!')
+                debug('Welcome Player 1!')
             } else if (players.p2.id == null) {
                 players.p2.id = playerId;
                 players.p2.conn = conn;
                 conn.send('pl_2');
-                debug('Welcome right head!')
+                debug('Welcome Player 2!')
             } else {
                 conn.send('pl_0'); // reject
-                debug('Another head wanted to join?! O_o')
+                debug('Max. 2 heads, max. 2 players! O_o')
             }
           }
           if (data.startsWith('p1_')) {
@@ -173,7 +174,8 @@ function create() {
         }).on('complete', function () {});
     }
 
-    var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=pp_' + parameters.gameId;
+    var gameType = (parameters.singlePlayer) ? 'sp' : 'pp';
+    var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=' + gameType + '_' + parameters.gameId;
     // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 
@@ -283,17 +285,27 @@ function _updateGold(time, delta) {
 function getParameters() {
     var url = new URL(window.location.href)
     var gameId = url.searchParams.get('gameId') || createGameId();
+    var singlePlayer = url.searchParams.get('sp') || 'false';
+    singlePlayer = (singlePlayer == 'true') ? true : false;
     var player = 'screen';
     var playerId = 'screen'
     if (gameId.startsWith('pp_')) {
         gameId = gameId.substr(3);
         player = 'pp';
         playerId = createGameId();
+        singlePlayer = false;
+    }
+    if (gameId.startsWith('sp_')) {
+        gameId = gameId.substr(3);
+        player = 'sp';
+        playerId = createGameId();
+        singlePlayer = true;
     }
     return {
         'gameId': gameId,
         'player': player,
-        'playerId': playerId
+        'playerId': playerId,
+        'singlePlayer': singlePlayer
     }
 }
 
