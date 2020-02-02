@@ -132,6 +132,9 @@ function preload() {
         this.load.image('smithy_bg', 'assets/smithy_bg.png')
         this.load.image('ogre_body', 'assets/ogre_body_short_bb.png')
 
+        this.load.image('bash', 'assets/bash.png')
+        this.load.image('magic', 'assets/magic.png')
+
         this.load.image('hammer', 'assets/hammer.png')
         this.load.image('sword', 'assets/sword.png')
         this.load.image('staff', 'assets/staff.png')
