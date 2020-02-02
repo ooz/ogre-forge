@@ -220,9 +220,9 @@ var weapon = {
         cashIn: function() {
             if (this.sprite == null) { return; }
             if (this.type == 'heart') {
-                this.sprite.loadTexture('heart_healed')
+                this.sprite.setTexture('heart_healed');
             } else {
-                this.sprite.setTint(0xffffff)
+                this.sprite.setTint(0xffffff);
             }
 
             this.alive = false;
