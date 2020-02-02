@@ -277,7 +277,7 @@ function _initUI() {
 
     if (_isValidPlayer()) {
         if (parameters.singlePlayer) {
-            var button2 = this.add.sprite(WIDTH / 2, 450, 'p2_foot').setInteractive();
+            var button2 = this.add.sprite(WIDTH / 2, 500, 'p2_foot').setInteractive();
             button2.on('pointerup', function () {
                 if (conn != null) {
                     if (_isValidPlayer()) {
