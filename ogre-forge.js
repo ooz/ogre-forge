@@ -75,7 +75,7 @@ if (_isGameScreen()) {
         conn.on('data', function(data){
           if (data.startsWith('hi_')) {
             var playerId = data.substr(3);
-            if (players.p1.id == null) {
+            if (players.p1.id == null || parameters.singlePlayer) {
                 players.p1.id = playerId;
                 players.p1.conn = conn;
                 conn.send('pl_1');
