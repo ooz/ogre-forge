@@ -190,7 +190,7 @@ var weapon = {
             if (this.sprite == null || !this.isOnAnvil()) { return; }
             this.position += 1;
             if (this.position > 2) {
-                this.fallOff(position);
+                this.fallOff();
             }
             this.target = targetForPosition(this.position);
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
