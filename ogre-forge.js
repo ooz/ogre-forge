@@ -217,7 +217,7 @@ var weapon = {
         },
         cashIn: function() {
             if (this.sprite == null) { return; }
-            this.sprite.sprite.setTint(0xffffff)
+            this.sprite.setTint(0xffffff)
             this.alive = false;
             this.target = {x: 300, y: -60}
             this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 2)
