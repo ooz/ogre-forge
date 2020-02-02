@@ -373,7 +373,7 @@ function _initUI() {
         if (parameters.singlePlayer) {
             var button2 = this.add.sprite(WIDTH / 2, 500, 'p2_foot').setInteractive();
             button2.on('pointerup', function () {
-                if (conn != null) {
+                if (conn != null && !paused) {
                     if (_isValidPlayer()) {
                         conn.send('p2_stomp');
                     }
@@ -381,7 +381,7 @@ function _initUI() {
             });
             var bashButton1 = this.add.sprite(75, 100, 'p1_head').setInteractive();
             bashButton1.on('pointerup', function () {
-                if (conn != null) {
+                if (conn != null && !paused) {
                     if (_isValidPlayer()) {
                         conn.send('p1_bash');
                     }
@@ -389,7 +389,7 @@ function _initUI() {
             });
             var bashButton2 = this.add.sprite(225, 100, 'p2_head').setInteractive();
             bashButton2.on('pointerup', function () {
-                if (conn != null) {
+                if (conn != null && !paused) {
                     if (_isValidPlayer()) {
                         conn.send('p2_bash');
                     }
@@ -410,7 +410,7 @@ function _initUI() {
 
         button = this.add.sprite(WIDTH / 2, HEIGHT / 2, players.me.number + '_foot').setInteractive();
         button.on('pointerup', function () {
-            if (conn != null) {
+            if (conn != null && !paused) {
                 if (_isValidPlayer()) {
                     conn.send(players.me.number + '_stomp');
                 }
