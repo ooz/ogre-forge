@@ -345,7 +345,6 @@ function newWeaponModel(leftB, leftM, middleB, middleM, rightB, rightM) {
             if (value != 0) { // 0 .. no effect, no need to act
                 this[key] = value - 1;
             }
-            //debug("Model " + this.b0 + " " + this.m0 + " " + this.b1 + " " + this.m1 + " " + this.b2 + " " + this.m2 + " ")
         },
         isBroken: function() {
             return this.b0 < -1 || this.m0 < -1 || this.b1 < -1 || this.m1 < -1 || this.b2 < -1 || this.m2 < -1;
@@ -411,11 +410,6 @@ function create() {
             game.scale.startFullscreen()
             paused = false;
         }
-        /*
-        else {
-            game.scale.stopFullscreen()
-        }
-        */
     }, this);
 
     if (_isGameScreen()) {
@@ -540,8 +534,6 @@ function _initUI() {
             gyro.frequency = 50; // ms
             gyro.startTracking(_onGyro);
         }
-
-        //this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#c2b280");
     }
 }
 
