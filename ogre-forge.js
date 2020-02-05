@@ -455,6 +455,13 @@ function create() {
     // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
     get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
 
+    if (_isGameScreen()) {
+        var thisGameLink = 'https://ooz.github.io/ogre-forge/?gameId=' + parameters.gameId + '&sp=' + parameters.singlePlayer;
+        get('restart-game-link').setAttribute('href', encodeURI(thisGameLink));
+    } else {
+        get('restart-game-link').setText('');
+    }
+
     debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#ffff00' });
 }
 
