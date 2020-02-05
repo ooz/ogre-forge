@@ -300,22 +300,27 @@ function _newWeapon(type, initialPosition=1) {
     if (flip && type != 'heart') {
         weapon.sprite.angle = 180;
     }
-    if (type == 'hammer') {
-        weapon.model = (!flip) ? newWeaponModel(0, 0, 0, 0, 2, 0) : newWeaponModel(2, 0, 0, 0, 0, 0);
-        weapon.gain = 100;
-        weapon.loss = 30;
-    } else if (type == 'sword') {
-        weapon.model = (!flip) ? newWeaponModel(-1, 0, 1, 0, 1, 0) : newWeaponModel(1, 0, 1, 0, -1, 0);
-        weapon.gain = 150;
-        weapon.loss = 70;
-    } else if (type == 'staff') {
-        weapon.model = (!flip) ? newWeaponModel(1, 0, 1, 0, -1, 2) : newWeaponModel(-1, 2, 1, 0, 1, 0);
-        weapon.gain = 200;
-        weapon.loss = 100;
-    } else if (type == 'heart') {
-        weapon.model = newWeaponModel(0, 0, -1, 1, 0, 0);
-        weapon.gain = 500;
-        weapon.loss = 1000;
+    switch (type) {
+        case 'hammer':
+            weapon.model = (!flip) ? newWeaponModel(0, 0, 0, 0, 2, 0) : newWeaponModel(2, 0, 0, 0, 0, 0);
+            weapon.gain = 100;
+            weapon.loss = 30;
+            break;
+        case 'sword':
+            weapon.model = (!flip) ? newWeaponModel(-1, 0, 1, 0, 1, 0) : newWeaponModel(1, 0, 1, 0, -1, 0);
+            weapon.gain = 150;
+            weapon.loss = 70;
+            break;
+        case 'staff':
+            weapon.model = (!flip) ? newWeaponModel(1, 0, 1, 0, -1, 2) : newWeaponModel(-1, 2, 1, 0, 1, 0);
+            weapon.gain = 200;
+            weapon.loss = 100;
+            break;
+        case 'heart':
+            weapon.model = newWeaponModel(0, 0, -1, 1, 0, 0);
+            weapon.gain = 500;
+            weapon.loss = 1000;
+            break;
     }
 }
 // left, middle, right; B .. Bash, M .. Magic
