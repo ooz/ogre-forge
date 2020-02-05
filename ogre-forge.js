@@ -456,13 +456,20 @@ function create() {
         var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=' + gameType + '_' + parameters.gameId;
         // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
         get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURI(gameUrl));
+
+        removeElement('smartphone-instructions')
     } else {
         // Don't need QR-Code and game links on smartphone controller
-        var toRemove = get('game-setup');
-        toRemove.parentNode.removeChild(toRemove);
+        removeElement('game-setup')
+        removeElement('credits')
     }
 
     debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#ffff00' });
+}
+
+function removeElement(elemId) {
+    var toRemove = get(elemId);
+    toRemove.parentNode.removeChild(toRemove);
 }
 
 var button = null;
