@@ -53,13 +53,11 @@ var players = {
     body: null,
     p1: {
         id: null,
-        conn: null,
         commands: [],
         head: null
     },
     p2: {
         id: null,
-        conn: null,
         commands: [],
         head: null
     },
@@ -78,12 +76,10 @@ if (_isGameScreen()) {
             var playerId = data.substr(3);
             if (players.p1.id == null || parameters.singlePlayer) {
                 players.p1.id = playerId;
-                players.p1.conn = conn;
                 conn.send('pl_1');
                 debug('Welcome Player 1!')
             } else if (players.p2.id == null) {
                 players.p2.id = playerId;
-                players.p2.conn = conn;
                 conn.send('pl_2');
                 debug('Welcome Player 2!')
             } else {
