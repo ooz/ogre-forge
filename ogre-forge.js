@@ -422,7 +422,7 @@ function create() {
         }).on('complete', function () {});
         players.p2.head = this.add.image(350, 105, 'p2_head');
         players.p2.head.shake = this.plugins.get('rexshakepositionplugin').add(players.p2.head, {
-            duration: 150,
+            duration: 200,
             magnitude: 1,
         }).on('complete', function () {});
         anvil = this.add.image(300, 325, 'anvil');
