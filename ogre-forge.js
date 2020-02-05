@@ -292,37 +292,37 @@ var weapon = {
     }
 };
 function _newWeapon(type, initialPosition=1) {
-    weapon.primary.type = type;
-    if (weapon.primary.sprite != null) weapon.primary.sprite.destroy();
+    weapon.type = type;
+    if (weapon.sprite != null) weapon.sprite.destroy();
 
-    weapon.primary.position = initialPosition;
+    weapon.position = initialPosition;
     var screenPosition = targetForPosition(initialPosition);
-    weapon.primary.sprite = this.physics.add.image(screenPosition.x, screenPosition.y, type)
-    weapon.primary.sprite.setDepth(10);
-    if (type != 'heart') weapon.primary.sprite.setTint(0xb7410e); // rust color
-    weapon.primary.physics = this.physics;
-    weapon.primary.alive = true;
-    weapon.primary.claimed = false;
+    weapon.sprite = this.physics.add.image(screenPosition.x, screenPosition.y, type)
+    weapon.sprite.setDepth(10);
+    if (type != 'heart') weapon.sprite.setTint(0xb7410e); // rust color
+    weapon.physics = this.physics;
+    weapon.alive = true;
+    weapon.claimed = false;
     var flip = (random(0, 1)) ? true : false;
     if (flip && type != 'heart') {
-        weapon.primary.sprite.angle = 180;
+        weapon.sprite.angle = 180;
     }
     if (type == 'hammer') {
-        weapon.primary.model = (!flip) ? newWeaponModel(0, 0, 0, 0, 2, 0) : newWeaponModel(2, 0, 0, 0, 0, 0);
-        weapon.primary.gain = 100;
-        weapon.primary.loss = 30;
+        weapon.model = (!flip) ? newWeaponModel(0, 0, 0, 0, 2, 0) : newWeaponModel(2, 0, 0, 0, 0, 0);
+        weapon.gain = 100;
+        weapon.loss = 30;
     } else if (type == 'sword') {
-        weapon.primary.model = (!flip) ? newWeaponModel(-1, 0, 1, 0, 1, 0) : newWeaponModel(1, 0, 1, 0, -1, 0);
-        weapon.primary.gain = 150;
-        weapon.primary.loss = 70;
+        weapon.model = (!flip) ? newWeaponModel(-1, 0, 1, 0, 1, 0) : newWeaponModel(1, 0, 1, 0, -1, 0);
+        weapon.gain = 150;
+        weapon.loss = 70;
     } else if (type == 'staff') {
-        weapon.primary.model = (!flip) ? newWeaponModel(1, 0, 1, 0, -1, 2) : newWeaponModel(-1, 2, 1, 0, 1, 0);
-        weapon.primary.gain = 200;
-        weapon.primary.loss = 100;
+        weapon.model = (!flip) ? newWeaponModel(1, 0, 1, 0, -1, 2) : newWeaponModel(-1, 2, 1, 0, 1, 0);
+        weapon.gain = 200;
+        weapon.loss = 100;
     } else if (type == 'heart') {
-        weapon.primary.model = newWeaponModel(0, 0, -1, 1, 0, 0);
-        weapon.primary.gain = 500;
-        weapon.primary.loss = 1000;
+        weapon.model = newWeaponModel(0, 0, -1, 1, 0, 0);
+        weapon.gain = 500;
+        weapon.loss = 1000;
     }
 }
 // left, middle, right; B .. Bash, M .. Magic
@@ -573,7 +573,7 @@ function update(time, delta) {
         _updateGold(time, delta)
         _updateEffects(time, delta);
 
-        if (weapon.primary.claimed) {
+        if (weapon.claimed) {
             var nextWeapon = random(0, 3);
             var initialPosition = random(0, 2);
             this._newWeapon(WEAPON_TYPES[nextWeapon], initialPosition);
@@ -585,9 +585,9 @@ function update(time, delta) {
             //debug("P1: " + cmd);
             if (cmd == 'bash') {
                 effects.magic.alpha = 1.0;
-                weapon.primary.magic();
+                weapon.magic();
             } else if (cmd == 'stomp') {
-                weapon.primary.moveLeft();
+                weapon.moveLeft();
             }
             if (players.body != null && cmd == 'stomp') players.body.shake.shake();
             if (players.p1.head != null && cmd == 'bash') players.p1.head.shake.shake();
@@ -599,16 +599,16 @@ function update(time, delta) {
             //debug("P2: " + cmd);
             if (cmd == 'bash') {
                 effects.bash.alpha = 1.0;
-                weapon.primary.bash();
+                weapon.bash();
             } else if (cmd == 'stomp') {
-                weapon.primary.moveRight();
+                weapon.moveRight();
             }
             if (players.body != null && cmd == 'stomp') players.body.shake.shake();
             if (players.p2.head != null && cmd == 'bash') players.p2.head.shake.shake();
             if (anvil != null) anvil.shake.shake();
         }
 
-        weapon.primary.update(time, delta);
+        weapon.update(time, delta);
     }
 }
 function _updateGold(time, delta) {
