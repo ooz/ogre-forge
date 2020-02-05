@@ -87,13 +87,10 @@ if (_isGameScreen()) {
                 debug('Max. 2 heads, max. 2 players! O_o')
             }
           }
-          if (data.startsWith('p1_')) {
+          if (data.startsWith('p1_') || data.startsWith('p2_')) {
+            var playerId = data.substr(0, 2);
             var command = data.substr(3);
-            players.p1.commands.push(command)
-          }
-          if (data.startsWith('p2_')) {
-            var command = data.substr(3);
-            players.p2.commands.push(command)
+            players[playerId].commands.push(command)
           }
         });
       });
