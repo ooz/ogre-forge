@@ -459,7 +459,8 @@ function create() {
         var thisGameLink = 'https://ooz.github.io/ogre-forge/?gameId=' + parameters.gameId + '&sp=' + parameters.singlePlayer;
         get('restart-game-link').setAttribute('href', encodeURI(thisGameLink));
     } else {
-        get('restart-game-link').setText('');
+        var restartLink = get('restart-game-link');
+        restartLink.parentNode.removeChild(restartLink);
     }
 
     debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#ffff00' });
