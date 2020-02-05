@@ -166,128 +166,126 @@ function preload() {
 
 const SPEED = 300;
 var weapon = {
-    primary: {
-        sprite: null,
-        physics: null,
-        alive: true,
-        claimed: false,
-        type: '',
-        position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
-        target: {x: 300, y: 270},
-        model: {},
-        loss: 0,
-        gain: 0,
-        exists: function() {
-            return this.sprite != null;
-        },
-        isOnAnvil: function() {
-            return this.position >= 0 && this.position <= 2 && this.alive;
-        },
-        moveLeft: function() {
-            if (this.sprite == null) { return; }
-            playSound(sounds.stomp);
-            if (!this.isOnAnvil()) { return; }
+    sprite: null,
+    physics: null,
+    alive: true,
+    claimed: false,
+    type: '',
+    position: 1, // 0 left, 1 middle, 2 right; lower than 0: fall off left, higher than 2: fall off right
+    target: {x: 300, y: 270},
+    model: {},
+    loss: 0,
+    gain: 0,
+    exists: function() {
+        return this.sprite != null;
+    },
+    isOnAnvil: function() {
+        return this.position >= 0 && this.position <= 2 && this.alive;
+    },
+    moveLeft: function() {
+        if (this.sprite == null) { return; }
+        playSound(sounds.stomp);
+        if (!this.isOnAnvil()) { return; }
 
-            this.position -= 1;
-            if (this.position < 0) {
-                this.fallOff();
-            }
-            this.target = targetForPosition(this.position);
-            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
-        },
-        moveRight: function() {
-            if (this.sprite == null) { return; }
-            playSound(sounds.stomp);
-            if (!this.isOnAnvil()) { return; }
+        this.position -= 1;
+        if (this.position < 0) {
+            this.fallOff();
+        }
+        this.target = targetForPosition(this.position);
+        this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
+    },
+    moveRight: function() {
+        if (this.sprite == null) { return; }
+        playSound(sounds.stomp);
+        if (!this.isOnAnvil()) { return; }
 
-            this.position += 1;
-            if (this.position > 2) {
-                this.fallOff();
-            }
-            this.target = targetForPosition(this.position);
-            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
-        },
-        fallOff: function() {
-            if (this.sprite == null) { return; }
-            this.alive = false;
-            this.target = targetForPosition(this.position);
-            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 4)
-        },
-        breakOff: function() {
-            if (this.sprite == null) { return; }
-            this.alive = false;
-            this.target = {x: 300, y: 360}
-            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 3)
-        },
-        cashIn: function() {
-            if (this.sprite == null) { return; }
-            if (this.type == 'heart') {
-                this.sprite.setTexture('heart_healed');
-            } else {
-                this.sprite.setTint(0xffffff);
-            }
+        this.position += 1;
+        if (this.position > 2) {
+            this.fallOff();
+        }
+        this.target = targetForPosition(this.position);
+        this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED)
+    },
+    fallOff: function() {
+        if (this.sprite == null) { return; }
+        this.alive = false;
+        this.target = targetForPosition(this.position);
+        this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 4)
+    },
+    breakOff: function() {
+        if (this.sprite == null) { return; }
+        this.alive = false;
+        this.target = {x: 300, y: 360}
+        this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 3)
+    },
+    cashIn: function() {
+        if (this.sprite == null) { return; }
+        if (this.type == 'heart') {
+            this.sprite.setTexture('heart_healed');
+        } else {
+            this.sprite.setTint(0xffffff);
+        }
 
-            this.alive = false;
-            this.target = {x: 300, y: -60}
-            this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 2)
-        },
-        bash: function() {
-            if (this.sprite == null) { return; }
+        this.alive = false;
+        this.target = {x: 300, y: -60}
+        this.physics.moveTo(this.sprite, this.target.x, this.target.y, SPEED * 2)
+    },
+    bash: function() {
+        if (this.sprite == null) { return; }
 
-            if (random(1, 2) == 1) {
-                playSound(sounds.kling);
-            } else {
-                playSound(sounds.klingPitch);
-            }
+        if (random(1, 2) == 1) {
+            playSound(sounds.kling);
+        } else {
+            playSound(sounds.klingPitch);
+        }
 
-            var modelKey = `b${this._translatePositionForHit(this.position)}`;
-            this._hit(modelKey);
-        },
-        magic: function() {
-            if (this.sprite == null) { return; }
+        var modelKey = `b${this._translatePositionForHit(this.position)}`;
+        this._hit(modelKey);
+    },
+    magic: function() {
+        if (this.sprite == null) { return; }
 
-            playSound(sounds.woosh);
+        playSound(sounds.woosh);
 
-            var modelKey = `m${this._translatePositionForHit(this.position)}`;
-            this._hit(modelKey);
-        },
-        _translatePositionForHit: function(pos) {
-            if (pos == 0) {
-                return 2
-            } else if (pos == 2) {
-                return 0
-            }
-            return pos;
-        },
-        _hit: function(modelKey) {
-            if (!this.alive) { return; }
-            this.model.hit(modelKey);
-            if (this.model.isREPAIRED()) {
-                this.cashIn();
-            }
-            if (this.model.isBroken()) {
-                this.breakOff();
-            }
-        },
-        update: function(time, delta) {
-            if (this.sprite == null) { return; }
-            if (this.sprite.body.speed > 0) {
-                var distance = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
+        var modelKey = `m${this._translatePositionForHit(this.position)}`;
+        this._hit(modelKey);
+    },
+    _translatePositionForHit: function(pos) {
+        if (pos == 0) {
+            return 2
+        } else if (pos == 2) {
+            return 0
+        }
+        return pos;
+    },
+    _hit: function(modelKey) {
+        if (!this.alive) { return; }
+        this.model.hit(modelKey);
+        if (this.model.isREPAIRED()) {
+            this.cashIn();
+        }
+        if (this.model.isBroken()) {
+            this.breakOff();
+        }
+    },
+    update: function(time, delta) {
+        if (this.sprite == null) { return; }
+        if (this.sprite.body.speed > 0) {
+            var distance = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
 
-                if (distance < 8 || (this.sprite.y > 310 && distance < 16) || (this.sprite.y < -10 && distance < 16)) { // Reached target, higher tolerance for speedy offscreen move
-                    this.sprite.body.reset(this.target.x, this.target.y);
+            if (distance < 8 || (this.sprite.y > 310 && distance < 16) || (this.sprite.y < -10 && distance < 16)) { // Reached target, higher tolerance for speedy offscreen move
+                this.sprite.body.reset(this.target.x, this.target.y);
 
-                    if (this.sprite.y > 330) { // Sprite is offscreen, fell off --> KrachBumm sound, destroy and spawn new weapon
-                        playSound(sounds.krachBumm);
-                        gameState.gold -= this.loss;
-                        debug("-" + this.loss);
-                        this.claimed = true;
-                    } else if (this.sprite.y < -30) { // Sprite lifted offscreen, successfully repaired --> Kaching sound, destroy, get gold and spawn new weapon
-                        playSound(sounds.kaching);
-                        gameState.gold += this.gain;
-                        debug("+" + this.gain);
-                        this.claimed = true;
-                    }
+                if (this.sprite.y > 330) { // Sprite is offscreen, fell off --> KrachBumm sound, destroy and spawn new weapon
+                    playSound(sounds.krachBumm);
+                    gameState.gold -= this.loss;
+                    debug("-" + this.loss);
+                    this.claimed = true;
+                } else if (this.sprite.y < -30) { // Sprite lifted offscreen, successfully repaired --> Kaching sound, destroy, get gold and spawn new weapon
+                    playSound(sounds.kaching);
+                    gameState.gold += this.gain;
+                    debug("+" + this.gain);
+                    this.claimed = true;
                 }
             }
         }
