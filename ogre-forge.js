@@ -474,42 +474,23 @@ function _initUI() {
 
         if (parameters.singlePlayer) {
             var button2 = this.add.sprite(WIDTH / 2, 500, 'p2_foot').setInteractive();
-            button2.on('pointerup', function () {
-                if (conn != null && !paused) {
-                    if (_isValidPlayer()) {
-                        conn.send('p2_stomp');
-                    }
-                }
-            });
+            _onPointerup(button2, 'p2_stomp');
+
             var bashButton1 = this.add.sprite(75, 100, 'magic').setInteractive();
-            bashButton1.on('pointerup', function () {
-                if (conn != null && !paused) {
-                    if (_isValidPlayer()) {
-                        conn.send('p1_bash');
-                    }
-                }
-            });
+            _onPointerup(bashButton1, 'p1_bash');
+
             var bashButton2 = this.add.sprite(225, 100, 'bash').setInteractive();
-            bashButton2.on('pointerup', function () {
-                if (conn != null && !paused) {
-                    if (_isValidPlayer()) {
-                        conn.send('p2_bash');
-                    }
-                }
-            });
+            _onPointerup(bashButton2, 'p2_bash');
+
         } else {
             var graphic = 'magic';
             if (players.me.number == 'p2') {
                 graphic = 'bash'
             }
+
             var basher = this.add.sprite(WIDTH / 2, 100, graphic).setInteractive();
-            basher.on('pointerup', function () {
-                if (conn != null && !paused) {
-                    if (_isValidPlayer()) {
-                        conn.send(players.me.number + '_bash');
-                    }
-                }
-            });
+            _onPointerup(basher, players.me.number + '_bash');
+
             this.add.image(WIDTH / 2, 500, players.me.number + '_head');
         }
 
@@ -523,19 +504,22 @@ function _initUI() {
         }
 
         button = this.add.sprite(WIDTH / 2, HEIGHT / 2, players.me.number + '_foot').setInteractive();
-        button.on('pointerup', function () {
-            if (conn != null && !paused) {
-                if (_isValidPlayer()) {
-                    conn.send(players.me.number + '_stomp');
-                }
-            }
-        });
+        _onPointerup(button, players.me.number + '_stomp');
 
         if (gyro.hasFeature('devicemotion')) {
             gyro.frequency = 50; // ms
             gyro.startTracking(_onGyro);
         }
     }
+}
+function _onPointerup(sprite, command) {
+    sprite.on('pointerup', function () {
+        if (conn != null && !paused) {
+            if (_isValidPlayer()) {
+                conn.send(command);
+            }
+        }
+    });
 }
 
 function _onGyro(o) {
