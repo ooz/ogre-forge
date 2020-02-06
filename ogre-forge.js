@@ -42,7 +42,8 @@ var config = {
         update: update,
         extend: {
             _initUI: _initUI,
-            _newWeapon: _newWeapon
+            _newWeapon: _newWeapon,
+            _addShaker: _addShaker
         }
     },
     backgroundColor: '#c2b280'
