@@ -406,13 +406,13 @@ function create() {
         this.add.image(300, 150, 'smithy_bg');
 
         players.body = this.add.image(300, 135, 'ogre_body');
-        _addShaker(players.body, 200, 2)
+        this._addShaker(players.body, 200, 2)
         players.p1.head = this.add.image(250, 105, 'p1_head');
-        _addShaker(players.p1.head, 200, 1)
+        this._addShaker(players.p1.head, 200, 1)
         players.p2.head = this.add.image(350, 105, 'p2_head');
-        _addShaker(players.p2.head, 200, 1)
+        this._addShaker(players.p2.head, 200, 1)
         anvil = this.add.image(300, 325, 'anvil');
-        _addShaker(anvil, 400, 4)
+        this._addShaker(anvil, 400, 4)
 
         this._newWeapon(FIRST_WEAPON);
 
