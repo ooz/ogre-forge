@@ -410,26 +410,15 @@ function create() {
 
     if (_isGameScreen()) {
         this.add.image(300, 150, 'smithy_bg');
+
         players.body = this.add.image(300, 135, 'ogre_body');
-        players.body.shake = this.plugins.get('rexshakepositionplugin').add(players.body, {
-            duration: 200,
-            magnitude: 2,
-        }).on('complete', function () {});
+        _addShaker(players.body, 200, 2)
         players.p1.head = this.add.image(250, 105, 'p1_head');
-        players.p1.head.shake = this.plugins.get('rexshakepositionplugin').add(players.p1.head, {
-            duration: 200,
-            magnitude: 1,
-        }).on('complete', function () {});
+        _addShaker(players.p1.head, 200, 1)
         players.p2.head = this.add.image(350, 105, 'p2_head');
-        players.p2.head.shake = this.plugins.get('rexshakepositionplugin').add(players.p2.head, {
-            duration: 200,
-            magnitude: 1,
-        }).on('complete', function () {});
+        _addShaker(players.p2.head, 200, 1)
         anvil = this.add.image(300, 325, 'anvil');
-        anvil.shake = this.plugins.get('rexshakepositionplugin').add(anvil, {
-            duration: 400,
-            magnitude: 4,
-        }).on('complete', function () {});
+        _addShaker(anvil, 400, 4)
 
         this._newWeapon(FIRST_WEAPON);
 
@@ -467,9 +456,11 @@ function create() {
     debugConsole = this.add.text(10, 10, '', { font: '16px Courier', fill: '#ffff00' });
 }
 
-function removeElement(elemId) {
-    var toRemove = get(elemId);
-    toRemove.parentNode.removeChild(toRemove);
+function _addShaker(gameObj, duration, magnitude) {
+    gameObj.shake = this.plugins.get('rexshakepositionplugin').add(gameObj, {
+        duration: duration,
+        magnitude: magnitude,
+    }).on('complete', function () {});
 }
 
 var button = null;
@@ -690,6 +681,11 @@ function createGameId() {
 
 function get(id) {
     return document.getElementById(id)
+}
+
+function removeElement(elemId) {
+    var toRemove = get(elemId);
+    toRemove.parentNode.removeChild(toRemove);
 }
 
 function random(min, max) {
