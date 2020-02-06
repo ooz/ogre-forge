@@ -455,7 +455,7 @@ function create() {
         var gameType = (parameters.singlePlayer) ? 'sp' : 'pp';
         var gameUrl = 'https://ooz.github.io/ogre-forge/?gameId=' + gameType + '_' + parameters.gameId;
         // https://developers.google.com/chart/infographics/docs/qr_codes?csw=1
-        get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|0&chl=' + encodeURI(gameUrl));
+        get('game-qrcode').setAttribute('src', 'https://chart.googleapis.com/chart?cht=qr&chs=250x250&chld=L|0&chl=' + encodeURI(gameUrl));
 
         removeElement('smartphone-instructions')
     } else {
