@@ -583,7 +583,7 @@ function update(time, delta) {
         }
     } else if (_isGameScreen()) {
         _updateGold(time, delta)
-        _updateEffects(time, delta);
+        _updateEffects();
 
         if (weapon.claimed) {
             var nextWeapon = random(0, 3);
@@ -639,21 +639,18 @@ function _updateGold(time, delta) {
         gameState.lastPrintTimeInMs = time;
     }
 }
-function _updateEffects(time, delta) {
+function _updateEffects() {
     if (effects.bash == null || effects.magic == null) return;
 
-    var bashAlpha = effects.bash.alpha;
-    if (bashAlpha > 0.0) {
-        bashAlpha -= 0.09;
-        if (bashAlpha < 0.0) bashAlpha = 0.0;
-        effects.bash.alpha = bashAlpha;
-    }
-
-    var magicAlpha = effects.magic.alpha;
-    if (magicAlpha > 0.0) {
-        magicAlpha -= 0.08;
-        if (magicAlpha < 0.0) magicAlpha = 0.0;
-        effects.magic.alpha = magicAlpha;
+    _fadeOutEffect('bash')
+    _fadeOutEffect('magic')
+}
+function _fadeOutEffect(effectName) {
+    var alpha = effects[effectName].alpha;
+    if (alpha > 0.0) {
+        alpha -= 0.085;
+        if (alpha < 0.0) alpha = 0.0;
+        effects[effectName].alpha = alpha;
     }
 }
 // ## GAME CALLBACKS END
