@@ -74,15 +74,19 @@ if (_isGameScreen()) {
         conn.on('data', function(data){
           if (data.startsWith('hi_')) {
             var playerId = data.substr(3);
-            var headPosition = 'left';
+            var headPosition = 'left head';
             if ((players.counter % 2 == 0) || parameters.singlePlayer) {
                 conn.send('pl_1');
             } else if (players.counter % 2 == 1) {
                 conn.send('pl_2');
-                headPosition = 'right';
+                headPosition = 'right head';
+            }
+            if (parameters.singlePlayer) {
+                headPosition = 'both heads';
             }
             players.counter += 1;
-            debug(`Welcome Player ${players.counter} (${headPosition} head)!`)
+
+            debug(`Welcome Player ${players.counter} (${headPosition})!`)
           }
           if (data.startsWith('p1_') || data.startsWith('p2_')) {
             var playerId = data.substr(0, 2);
