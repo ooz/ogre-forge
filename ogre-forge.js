@@ -5,7 +5,7 @@ pp_<gameId> .. multiplayer game prefix
 sp_<gameId> .. singleplayer game prefix
 
 hi_<playerId>     .. handshake/player sign-up
-pl_<playerNumber> .. player number assignment by game (1, 2 .. players, 0 .. reject)
+pl_<playerNumber> .. player number assignment by game (1, 2 .. players)
 p1_<action>       .. player 1 action command
 p2_<action>       .. player 2 action command
 */
@@ -80,12 +80,6 @@ if (_isGameScreen()) {
                 conn.send('pl_2');
                 headPosition = 'right';
             }
-            /*
-            else {
-                conn.send('pl_0'); // reject
-                debug('Max. 2 heads, max. 2 players! O_o')
-            }
-            */
             players.counter += 1;
             debug(`Welcome Player ${players.counter} (${headPosition} head)!`)
           }
@@ -111,9 +105,6 @@ if (!_isGameScreen()) {
         var command = data.substr(3);
         if (data.startsWith('pl_')) {
             players.me.number = 'p' + command;
-            if (command == '0') {
-                debug('Game full! Max. 2 players! x_x')
-            }
         }
     });
 }
