@@ -61,9 +61,9 @@ var players = {
     },
     me: {
         number: null
-    }
+    },
+    counter: 0
 }
-var playerCounter = 0;
 
 // ## PEERS
 var peer;
@@ -74,9 +74,9 @@ if (_isGameScreen()) {
           if (data.startsWith('hi_')) {
             var playerId = data.substr(3);
             var headPosition = 'left';
-            if ((playerCounter % 2 == 0) || parameters.singlePlayer) {
+            if ((players.counter % 2 == 0) || parameters.singlePlayer) {
                 conn.send('pl_1');
-            } else if (playerCounter % 2 == 1) {
+            } else if (players.counter % 2 == 1) {
                 conn.send('pl_2');
                 headPosition = 'right';
             }
@@ -86,8 +86,8 @@ if (_isGameScreen()) {
                 debug('Max. 2 heads, max. 2 players! O_o')
             }
             */
-            playerCounter += 1;
-            debug(`Welcome Player ${playerCounter} (${headPosition} head)!`)
+            players.counter += 1;
+            debug(`Welcome Player ${players.counter} (${headPosition} head)!`)
           }
           if (data.startsWith('p1_') || data.startsWith('p2_')) {
             var playerId = data.substr(0, 2);
