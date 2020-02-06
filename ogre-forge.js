@@ -52,12 +52,10 @@ var game = new Phaser.Game(config);
 var players = {
     body: null,
     p1: {
-        id: null,
         commands: [],
         head: null
     },
     p2: {
-        id: null,
         commands: [],
         head: null
     },
@@ -65,6 +63,7 @@ var players = {
         number: null
     }
 }
+var playerCounter = 0;
 
 // ## PEERS
 var peer;
@@ -74,18 +73,21 @@ if (_isGameScreen()) {
         conn.on('data', function(data){
           if (data.startsWith('hi_')) {
             var playerId = data.substr(3);
-            if (players.p1.id == null || parameters.singlePlayer) {
-                players.p1.id = playerId;
+            var headPosition = 'left';
+            if ((playerCounter % 2 == 0) || parameters.singlePlayer) {
                 conn.send('pl_1');
-                debug('Welcome Player 1!')
-            } else if (players.p2.id == null) {
-                players.p2.id = playerId;
+            } else if (playerCounter % 2 == 1) {
                 conn.send('pl_2');
-                debug('Welcome Player 2!')
-            } else {
+                headPosition = 'right';
+            }
+            /*
+            else {
                 conn.send('pl_0'); // reject
                 debug('Max. 2 heads, max. 2 players! O_o')
             }
+            */
+            playerCounter += 1;
+            debug(`Welcome Player ${playerCounter} (${headPosition} head)!`)
           }
           if (data.startsWith('p1_') || data.startsWith('p2_')) {
             var playerId = data.substr(0, 2);
